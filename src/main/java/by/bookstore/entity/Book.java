@@ -6,16 +6,37 @@ import java.util.Objects;
 public class Book {
     private long id;
     private String name;
+    private String author;
+    private List<Like> likes;
     private List<Comment> comments;
-    private int likes;
     private double rating;
+    private double price;
+    private boolean reserved;
+    private User user;
 
-    public Book(long id, String name, List<Comment> comments, int likes, double rating) {
+
+    public Book(long id, String name, String author, List<Like> likes, List<Comment> comments, double rating, double price, boolean reserved, User
+                user) {
         this.id = id;
         this.name = name;
-        this.comments = comments;
+        this.author = author;
         this.likes = likes;
+        this.comments = comments;
         this.rating = rating;
+        this.price = price;
+        this.reserved = reserved;
+        this.user = user;
+    }
+
+    public Book(String name, String author, List<Like> likes, List<Comment> comments, double rating, double price, boolean reserved, User user) {
+        this.name = name;
+        this.author = author;
+        this.likes = likes;
+        this.comments = comments;
+        this.rating = rating;
+        this.price = price;
+        this.reserved = reserved;
+        this.user = user;
     }
 
     public Book() {
@@ -45,13 +66,6 @@ public class Book {
         this.comments = comments;
     }
 
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
 
     public double getRating() {
         return rating;
@@ -61,17 +75,57 @@ public class Book {
         this.rating = rating;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isReserved() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && likes == book.likes && Double.compare(book.rating, rating) == 0 && Objects.equals(name, book.name) && Objects.equals(comments, book.comments);
+        return id == book.id && Objects.equals(name, book.name) && Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, comments, likes, rating);
+        return Objects.hash(id, name, author);
     }
 
     @Override
@@ -79,9 +133,12 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", comments=" + comments +
+                ", author='" + author + '\'' +
                 ", likes=" + likes +
+                ", comments=" + comments +
                 ", rating=" + rating +
+                ", price=" + price +
+                ", reserved=" + reserved +
                 '}';
     }
 }

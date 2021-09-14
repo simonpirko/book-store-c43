@@ -8,12 +8,25 @@ public class User {
     private String name;
     private String login;
     private String password;
+    private String picture;
+    private TypeOfUser typeOfUser;
 
-    public User(long id, String name, String login, String password) {
+
+    public User(String name, String login, String password, String picture, TypeOfUser typeOfUser) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.picture = picture;
+        this.typeOfUser = typeOfUser;
+    }
+
+    public User(long id, String name, String login, String password, String picture, TypeOfUser typeOfUser) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
+        this.picture = picture;
+        this.typeOfUser = typeOfUser;
     }
 
     public User() {
@@ -51,17 +64,33 @@ public class User {
         this.password = password;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public TypeOfUser getTypeOfUser() {
+        return typeOfUser;
+    }
+
+    public void setTypeOfUser(TypeOfUser typeOfUser) {
+        this.typeOfUser = typeOfUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(login, user.login) && Objects.equals(password, user.password);
+        return Objects.equals(name, user.name) && Objects.equals(login, user.login) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, password);
+        return Objects.hash(name, login, password);
     }
 
     @Override

@@ -8,14 +8,21 @@ public class Comment {
     private LocalDateTime time;
     private User user;
     private String description;
-    private int likes;
+    private Book book;
 
-    public Comment(long id, LocalDateTime time, User user, String description, int likes) {
+    public Comment(LocalDateTime time, User user, String description, Book book) {
+        this.time = time;
+        this.user = user;
+        this.description = description;
+        this.book = book;
+    }
+
+    public Comment(long id, LocalDateTime time, User user, String description, Book book) {
         this.id = id;
         this.time = time;
         this.user = user;
         this.description = description;
-        this.likes = likes;
+        this.book = book;
     }
 
     public Comment() {
@@ -53,12 +60,12 @@ public class Comment {
         this.description = description;
     }
 
-    public int getLikes() {
-        return likes;
+    public Book getBook() {
+        return book;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
@@ -66,12 +73,12 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return id == comment.id && likes == comment.likes && Objects.equals(time, comment.time) && Objects.equals(user, comment.user) && Objects.equals(description, comment.description);
+        return Objects.equals(user, comment.user) && Objects.equals(description, comment.description) && Objects.equals(book, comment.book);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, time, user, description, likes);
+        return Objects.hash(user, description, book);
     }
 
     @Override
@@ -81,7 +88,8 @@ public class Comment {
                 ", time=" + time +
                 ", user=" + user +
                 ", description='" + description + '\'' +
-                ", likes=" + likes +
+                ", book=" + book +
                 '}';
     }
 }
+
