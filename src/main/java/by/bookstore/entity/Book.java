@@ -15,8 +15,7 @@ public class Book {
     private User user;
 
 
-    public Book(long id, String name, String author, List<Like> likes, List<Comment> comments, double rating, double price, boolean reserved, User
-                user) {
+    public Book(long id, String name, String author, List<Like> likes, List<Comment> comments, double rating, double price, boolean reserved, User user) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -37,6 +36,15 @@ public class Book {
         this.price = price;
         this.reserved = reserved;
         this.user = user;
+    }
+
+    public Book(long id, String name, String author, double rating, double price, boolean reserved) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.rating = rating;
+        this.price = price;
+        this.reserved = reserved;
     }
 
     public Book() {
