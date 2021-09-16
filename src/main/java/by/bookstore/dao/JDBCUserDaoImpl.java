@@ -29,34 +29,34 @@ public class JDBCUserDaoImpl implements UserDao {
 
     @Override
     public User getById(int id) {
-        List<User> userById = new ArrayList<>();
+        User userById = new User();
         try (Connection connection = MySQLConnection.getConnection()) {
             String sql = "SELECT * FROM users WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                userById.add(new User(
+                userById = new User(
                         resultSet.getString("name"),
                         resultSet.getString("login"),
                         resultSet.getString("password"),
                         resultSet.getString("picture"),
                         TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
-                ));
+                );
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-        return userById.get(0);
+        return userById;
     }
 
     @Override
     public boolean updateName(User user, String newName) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "UPDATE users SET name = ? WHERE name = ? ";
+            String sql = "UPDATE users SET name = ? WHERE id = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newName);
-            preparedStatement.setString(2, user.getName());
+            preparedStatement.setLong(2, user.getId());
             preparedStatement.execute();
             return true;
         } catch (SQLException exception) {
@@ -68,10 +68,10 @@ public class JDBCUserDaoImpl implements UserDao {
     @Override
     public boolean updatePassword(User user, String oldPassword, String newPassword) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "UPDATE users SET password = ? WHERE login = ? ";
+            String sql = "UPDATE users SET password = ? WHERE id = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newPassword);
-            preparedStatement.setString(2, user.getLogin());
+            preparedStatement.setLong(2, user.getId());
             preparedStatement.execute();
             return true;
         } catch (SQLException exception) {
