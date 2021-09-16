@@ -8,7 +8,7 @@ public interface UserDao {
 
     boolean save(User user);
 
-    User getById(int id);
+    User getByLogin(String login);
 
     boolean updateName(User user, String newName);
 

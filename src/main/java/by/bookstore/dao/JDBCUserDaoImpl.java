@@ -28,15 +28,17 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getById(int id) {
-        User userById = new User();
+    public User getByLogin(String login) {
+        User userByLogin = new User();
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "SELECT * FROM users WHERE id = ?";
+            String sql = "SELECT * FROM users WHERE login = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, login);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                userById = new User(
+                userByLogin = new User(
+                        resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("login"),
                         resultSet.getString("password"),
@@ -47,7 +49,7 @@ public class JDBCUserDaoImpl implements UserDao {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-        return userById;
+        return userByLogin;
     }
 
     @Override
