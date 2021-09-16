@@ -3,10 +3,10 @@ package by.bookstore.service.valueListHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MathOperationListHandler<T> implements ValueListIterator<T> {
+public class ValueListHandler<T> implements ValueListIterator<T> {
     private final List<T> elements;
 
-    public MathOperationListHandler(List<T> elements) {
+    public ValueListHandler(List<T> elements) {
         this.elements = elements;
     }
 
