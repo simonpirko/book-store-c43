@@ -16,9 +16,8 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public void saveBook(Book book) {
+    public boolean saveBook(Book book) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " INSERT INTO books VALUES (NULL, ?, ?, ?, ?, ?, ?) ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, book.getName());
@@ -28,34 +27,32 @@ public class BookDAOImpl implements BookDAO {
             statement.setBoolean(5, book.isReserved());
             statement.setLong(6, book.getUser().getId());
             statement.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
+            return true;
         } catch(SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
     @Override
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " DELETE FROM books WHERE id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             statement.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
     @Override
-    public void updateBook(Book book) {
+    public boolean updateBook(Book book) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " UPDATE books b SET b.name = ?, b.author = ?, b.rating = ?, b.price = ?, b.reserved = ?, b.user_id = ? " +
                     " WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -66,52 +63,49 @@ public class BookDAOImpl implements BookDAO {
             statement.setBoolean(5, book.isReserved());
             statement.setLong(6, book.getUser().getId());
             statement.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
     @Override
-    public void updateBookStatus(long id, boolean flag) {
+    public boolean updateBookStatus(long id, boolean flag) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " UPDATE books b SET b.reserved = ? WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, flag);
             statement.setLong(2, id);
             statement.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
     @Override
-    public void updateBookOwner(long id, long idUser) {
+    public boolean updateBookOwner(long id, long idUser) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " UPDATE books b SET b.user_id = ? WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, idUser);
             statement.setLong(2, id);
             statement.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
     @Override
     public boolean isExistById(long id) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT b.id FROM books b WHERE id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
@@ -122,8 +116,6 @@ public class BookDAOImpl implements BookDAO {
                     return true;
                 }
             }
-            connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -134,11 +126,10 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public boolean isExistByNameAuthor(String name, String author) {
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT b.name, b.author FROM books b WHERE b.name = ? AND b.author = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
-            statement.setString(1, author);
+            statement.setString(2, author);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
                 String bookName = resultSet.getString("name");
@@ -147,8 +138,6 @@ public class BookDAOImpl implements BookDAO {
                     return true;
                 }
             }
-            connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -156,18 +145,16 @@ public class BookDAOImpl implements BookDAO {
     }
 
 
-
     @Override
-    public Optional<Book> getBookById(long id) {
-        Optional<Book> book = Optional.empty();
+    public Book getBookById(long id) {
+        Book book = new Book();
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT * FROM books b WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()) {
-                book = Optional.of(new Book(
+                book = new Book(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("author"),
@@ -175,10 +162,8 @@ public class BookDAOImpl implements BookDAO {
                         resultSet.getDouble("price"),
                         resultSet.getBoolean("reserved"),
                         new User(resultSet.getLong("user_id"))
-                ));
+                );
             }
-            connection.commit();
-            connection.setAutoCommit(true);
             return  book;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -188,17 +173,16 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public Optional<Book> getBookByNameAuthor(String name, String author) {
-        Optional<Book> book = Optional.empty();
+    public Book getBookByNameAuthor(String name, String author) {
+           Book book = new Book();
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT * FROM books b WHERE b.name = ? AND b.author = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, author);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()) {
-                book = Optional.of(new Book(
+                book = new Book(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("author"),
@@ -206,10 +190,8 @@ public class BookDAOImpl implements BookDAO {
                         resultSet.getDouble("price"),
                         resultSet.getBoolean("reserved"),
                         new User(resultSet.getLong("user_id"))
-                ));
+                );
             }
-            connection.commit();
-            connection.setAutoCommit(true);
             return book;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -222,7 +204,6 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT * FROM books ";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
@@ -237,8 +218,6 @@ public class BookDAOImpl implements BookDAO {
                         new User(resultSet.getLong("user_id"))
                 ));
             }
-            connection.commit();
-            connection.setAutoCommit(true);
             return books;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -247,15 +226,13 @@ public class BookDAOImpl implements BookDAO {
     }
 
 
-
     @Override
-    public List<Book> getBooksByUser(User user) {
+    public List<Book> getBooksByUser(long idUser) {
         List<Book> books = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT * FROM books b WHERE b.user_id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, user.getId());
+            statement.setLong(1, idUser);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 books.add(new Book(
@@ -268,8 +245,6 @@ public class BookDAOImpl implements BookDAO {
                         new User(resultSet.getLong("user_id"))
                 ));
             }
-            connection.commit();
-            connection.setAutoCommit(true);
             return books;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -281,7 +256,6 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> getReservedBookByUser(long userId, boolean flag) {
         List<Book> books = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()){
-            connection.setAutoCommit(false);
             String query = " SELECT * FROM books b WHERE b.reserved = ? AND b.user_id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, flag);
@@ -295,11 +269,9 @@ public class BookDAOImpl implements BookDAO {
                         resultSet.getDouble("rating"),
                         resultSet.getDouble("price"),
                         resultSet.getBoolean("reserved"),
-                        new User(resultSet.getLong("user_id"))
+                        new User(resultSet.getInt("user_id"))
                 ));
             }
-            connection.commit();
-            connection.setAutoCommit(true);
             return books;
         } catch (SQLException e) {
             e.printStackTrace();

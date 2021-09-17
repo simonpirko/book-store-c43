@@ -38,7 +38,7 @@ public class Book {
         this.user = user;
     }
 
-    public Book(long id, String name, String author, double rating, double price, boolean reserved) {
+    public Book(long id, String name, String author, double rating, double price, boolean reserved, User user) {
         this.id = id;
         this.name = name;
         this.author = author;

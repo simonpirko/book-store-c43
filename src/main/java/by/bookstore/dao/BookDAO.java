@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public interface BookDAO {
 
-    void saveBook(Book book);
-    void updateBook(Book book);
-    void updateBookStatus(long id, boolean flag);
-    void updateBookOwner(long id, long idUser);
-    void deleteById(long id);
+    boolean saveBook(Book book);
+    boolean updateBook(Book book);
+    boolean updateBookStatus(long id, boolean flag);
+    boolean updateBookOwner(long id, long idUser);
+    boolean deleteById(long id);
     boolean isExistById(long id);
     boolean isExistByNameAuthor(String name, String author);
-    Optional<Book> getBookById(long id);
-    Optional<Book> getBookByNameAuthor(String name, String author);
+    Book getBookById(long id);
+    Book getBookByNameAuthor(String name, String author);
     List<Book> getAllBooks();
-    List<Book> getBooksByUser(User user);
+    List<Book> getBooksByUser(long idUser);
     List<Book> getReservedBookByUser(long userId, boolean flag);
 
 }
