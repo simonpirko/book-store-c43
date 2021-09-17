@@ -20,5 +20,5 @@ public interface BookDAO {
     List<Book> getAllBooks();
     List<Book> getBooksByUser(long idUser);
     List<Book> getReservedBookByUser(long userId, boolean flag);
-
+    boolean updateRating(long id, double rating);
 }

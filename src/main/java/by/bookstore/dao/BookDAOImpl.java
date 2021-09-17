@@ -279,4 +279,18 @@ public class BookDAOImpl implements BookDAO {
         return books;
     }
 
+    @Override
+    public boolean updateRating(long id, double rating) {
+        try (Connection connection = MySQLConnection.getConnection()){
+            String query = " UPDATE books b SET b.rating = ? WHERE b.id = ? ";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setDouble(1, rating);
+            statement.setLong(2, id);
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
