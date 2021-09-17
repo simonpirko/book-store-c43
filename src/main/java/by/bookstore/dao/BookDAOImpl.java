@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class BookDAOImpl implements BookDAO {
 
@@ -72,7 +71,7 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public boolean updateBookStatus(long id, boolean flag) {
+    public boolean updateBookReservedStatus(long id, boolean flag) {
         try (Connection connection = MySQLConnection.getConnection()){
             String query = " UPDATE books b SET b.reserved = ? WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);

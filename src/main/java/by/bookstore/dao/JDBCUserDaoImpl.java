@@ -5,8 +5,6 @@ import by.bookstore.entity.User;
 import by.bookstore.utils.MySQLConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JDBCUserDaoImpl implements UserDao {
     @Override

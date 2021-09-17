@@ -10,7 +10,7 @@ public interface BookDAO {
 
     boolean saveBook(Book book);
     boolean updateBook(Book book);
-    boolean updateBookStatus(long id, boolean flag);
+    boolean updateBookReservedStatus(long id, boolean flag);
     boolean updateBookOwner(long id, long idUser);
     boolean deleteById(long id);
     boolean isExistById(long id);

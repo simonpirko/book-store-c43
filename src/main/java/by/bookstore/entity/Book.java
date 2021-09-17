@@ -53,6 +53,10 @@ public class Book {
         this.author = author;
     }
 
+    public Book(long id) {
+        this.id = id;
+    }
+
     public Book() {
     }
 

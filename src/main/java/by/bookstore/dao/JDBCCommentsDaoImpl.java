@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CommentsDaoImpl implements CommentsDao {
+public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
     public boolean save(Comment comment) {
         try(Connection connection = MySQLConnection.getConnection()) {
@@ -59,12 +59,12 @@ public class CommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public List<Comment> getAllByUserAndBook(int userId, int bookId) {
+    public List<Comment> getAllByUserIdAndBookId(int userId, int bookId) {
         return null;
     }
 
     @Override
-    public boolean isExistByInfo(int userId, int bookId) {
+    public boolean isExistByInfo(Comment comment) {
         return false;
     }
 

@@ -20,9 +20,9 @@ public interface CommentsDao {
 
     List<Comment> getAllByUserId(int userId);
 
-    List<Comment> getAllByUserAndBook(int userId, int bookId);
+    List<Comment> getAllByUserIdAndBookId(int userId, int bookId);
 
-    boolean isExistByInfo(int userId, int bookId);
+    boolean isExistByInfo(Comment comment);
 
     boolean isExistById(int commentId);
 
