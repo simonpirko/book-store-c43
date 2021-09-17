@@ -20,7 +20,6 @@ public interface BookDAO {
     Optional<Book> getBookByNameAuthor(String name, String author);
     List<Book> getAllBooks();
     List<Book> getBooksByUser(User user);
-    List<Book> getBooksByReserved(boolean flag);
-
+    List<Book> getReservedBookByUser(long userId, boolean flag);
 
 }

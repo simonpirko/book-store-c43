@@ -275,13 +275,14 @@ public class BookMysqlDAOImp implements BookDAO{
     }
 
     @Override
-    public List<Book> getBooksByReserved(boolean flag) {
+    public List<Book> getReservedBookByUser(long userId, boolean flag) {
         List<Book> books = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()){
             connection.setAutoCommit(false);
-            String query = " SELECT * FROM books b WHERE b.reserved = ? ";
+            String query = " SELECT * FROM books b WHERE b.reserved = ? AND b.user_id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, flag);
+            statement.setLong(2, userId);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 books.add(new Book(
