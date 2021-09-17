@@ -29,6 +29,18 @@ public class User {
         this.typeOfUser = typeOfUser;
     }
 
+    public User(long id, String name, String picture, TypeOfUser typeOfUser) {
+        this.id = id;
+        this.name = name;
+        this.picture = picture;
+        this.typeOfUser = typeOfUser;
+    }
+
+
+    public User(long id) {
+        this.id = id;
+    }
+
     public User() {
     }
 

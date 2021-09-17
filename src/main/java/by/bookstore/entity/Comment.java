@@ -17,6 +17,12 @@ public class Comment {
         this.book = book;
     }
 
+    public Comment(long id, LocalDateTime time, String description) {
+        this.id = id;
+        this.time = time;
+        this.description = description;
+    }
+
     public Comment(long id, LocalDateTime time, User user, String description, Book book) {
         this.id = id;
         this.time = time;
