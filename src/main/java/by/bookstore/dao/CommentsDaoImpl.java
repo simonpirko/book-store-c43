@@ -16,9 +16,9 @@ public class CommentsDaoImpl implements CommentsDao {
             String sqlSaveComment = "INSERT INTO comments VALUES (default,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sqlSaveComment);
             statement.setString(1,comment.getTime().toString());
-            statement.setInt(2, (int) comment.getUser().getId());
+            statement.setLong(2,comment.getUser().getId());
             statement.setString(3,comment.getDescription());
-            statement.setInt(4, (int) comment.getBook().getId());
+            statement.setLong(4,comment.getBook().getId());
             return statement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
