@@ -36,6 +36,10 @@ public class User {
         this.typeOfUser = typeOfUser;
     }
 
+    public User(long id) {
+        this.id = id;
+    }
+
     public User() {
     }
 
