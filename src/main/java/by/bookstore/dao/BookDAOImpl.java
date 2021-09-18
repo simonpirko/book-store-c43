@@ -71,12 +71,12 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public boolean updateBookReservedStatus(long id, boolean flag) {
+    public boolean updateBookReservedStatus(long bookId, boolean flag) {
         try (Connection connection = MySQLConnection.getConnection()){
             String query = " UPDATE books b SET b.reserved = ? WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, flag);
-            statement.setLong(2, id);
+            statement.setLong(2, bookId);
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -87,12 +87,12 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public boolean updateBookOwner(long id, long idUser) {
+    public boolean updateBookOwner(long bookId, long idUser) {
         try (Connection connection = MySQLConnection.getConnection()){
             String query = " UPDATE books b SET b.user_id = ? WHERE b.id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, idUser);
-            statement.setLong(2, id);
+            statement.setLong(2, bookId);
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -226,12 +226,12 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public List<Book> getBooksByUser(long idUser) {
+    public List<Book> getBooksByUser(long userId) {
         List<Book> books = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()){
             String query = " SELECT * FROM books b WHERE b.user_id = ? ";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, idUser);
+            statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 books.add(new Book(

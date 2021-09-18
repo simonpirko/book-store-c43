@@ -66,7 +66,7 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updatePassword(User user, String oldPassword, String newPassword) {
+    public boolean updatePassword(User user, String newPassword) {
         try (Connection connection = MySQLConnection.getConnection()) {
             String sql = "UPDATE users SET password = ? WHERE id = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -81,7 +81,7 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean isExistById(int id) {
+    public boolean isExistById(long id) {
         try (Connection connection = MySQLConnection.getConnection()) {
             String sql = "SELECT * FROM users WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);

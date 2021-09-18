@@ -10,7 +10,7 @@ public interface LikeDAO {
 
     boolean isExistByUserAndBook(Like like);
 
-    List<Like> getLikesByBook(int idBook);
+    List<Like> getLikesByBook(long idBook);
 
     }
 

@@ -2,8 +2,6 @@ package by.bookstore.dao;
 
 import by.bookstore.entity.User;
 
-import java.util.List;
-
 public interface UserDao {
 
     boolean save(User user);
@@ -12,9 +10,9 @@ public interface UserDao {
 
     boolean updateName(User user, String newName);
 
-    boolean updatePassword(User user,String oldPassword, String newPassword);
+    boolean updatePassword(User user, String newPassword);
 
-    boolean isExistById(int id);
+    boolean isExistById(long id);
 
     boolean isExistByLogin(String login);
 

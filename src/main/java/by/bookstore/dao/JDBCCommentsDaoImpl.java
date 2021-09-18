@@ -1,7 +1,6 @@
 package by.bookstore.dao;
 
 import by.bookstore.entity.Comment;
-import by.bookstore.entity.User;
 import by.bookstore.utils.MySQLConnection;
 
 import java.sql.Connection;
@@ -15,7 +14,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
         try(Connection connection = MySQLConnection.getConnection()) {
             String sqlSaveComment = "INSERT INTO comments VALUES (default,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sqlSaveComment);
-            statement.setString(1,comment.getTime().toString());
+            statement.setObject(1,comment.getTime());
             statement.setLong(2,comment.getUser().getId());
             statement.setString(3,comment.getDescription());
             statement.setLong(4,comment.getBook().getId());
@@ -26,11 +25,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public boolean deleteById(int commentId) {
+    public boolean deleteById(long commentId) {
         try(Connection connection = MySQLConnection.getConnection()) {
             String sqlDeleteComment = "DELETE FROM comments WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sqlDeleteComment);
-            statement.setInt(1, commentId);
+            statement.setLong(1, commentId);
             return statement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -43,23 +42,22 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public User getById(int commentId) {
-        return null;
-    }
-
-
-    @Override
-    public List<Comment> getAllByBookId(int bookId) {
+    public Comment getById(long commentId) {
         return null;
     }
 
     @Override
-    public List<Comment> getAllByUserId(int userId) {
+    public List<Comment> getAllByBookId(long bookId) {
         return null;
     }
 
     @Override
-    public List<Comment> getAllByUserIdAndBookId(int userId, int bookId) {
+    public List<Comment> getAllByUserId(long userId) {
+        return null;
+    }
+
+    @Override
+    public List<Comment> getAllByUserIdAndBookId(long userId, long bookId) {
         return null;
     }
 
@@ -69,7 +67,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public boolean isExistById(int commentId) {
+    public boolean isExistById(long commentId) {
         return false;
     }
 }

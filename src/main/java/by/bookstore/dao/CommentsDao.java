@@ -1,8 +1,6 @@
 package by.bookstore.dao;
 
-import by.bookstore.entity.Book;
 import by.bookstore.entity.Comment;
-import by.bookstore.entity.User;
 
 import java.util.List;
 
@@ -10,21 +8,21 @@ public interface CommentsDao {
 
     boolean save(Comment comment);
 
-    boolean deleteById(int commentId);
+    boolean deleteById(long commentId);
 
     boolean update(Comment comment);
 
-    User getById(int commentId);
+    Comment getById(long commentId);
 
-    List<Comment> getAllByBookId(int bookId);
+    List<Comment> getAllByBookId(long bookId);
 
-    List<Comment> getAllByUserId(int userId);
+    List<Comment> getAllByUserId(long userId);
 
-    List<Comment> getAllByUserIdAndBookId(int userId, int bookId);
+    List<Comment> getAllByUserIdAndBookId(long userId, long bookId);
 
     boolean isExistByInfo(Comment comment);
 
-    boolean isExistById(int commentId);
+    boolean isExistById(long commentId);
 
 }
 

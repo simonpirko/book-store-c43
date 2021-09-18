@@ -42,7 +42,7 @@ public class JDBCLikeDaoImpl implements LikeDAO {
     }
 
     @Override
-    public List<Like> getLikesByBook(int idBook) {
+    public List<Like> getLikesByBook(long idBook) {
         List<Like> likeList = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()) {
             String query = "SELECT likes.id AS like_id, u.id AS id_user," +
