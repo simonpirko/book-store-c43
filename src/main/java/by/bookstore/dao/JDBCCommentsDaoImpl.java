@@ -71,15 +71,15 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             comment = new Comment(resultSet.getLong("comments_id"),
                     new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
                     new User(
-                            resultSet.getLong("id_user"),
-                            resultSet.getString("name_user"),
+                            resultSet.getLong("user_id"),
+                            resultSet.getString("name"),
                             resultSet.getString("picture"),
                             TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
                     ),
                     resultSet.getString("description"),
                     new Book(
-                            resultSet.getLong("id_book"),
-                            resultSet.getString("name_book"),
+                            resultSet.getLong("book_id"),
+                            resultSet.getString("name"),
                             resultSet.getString("author")
                     ));
 
@@ -105,15 +105,15 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                         resultSet.getLong("comments_id"),
                         new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
                         new User(
-                                resultSet.getLong("id_user"),
-                                resultSet.getString("name_user"),
+                                resultSet.getLong("user_id"),
+                                resultSet.getString("name"),
                                 resultSet.getString("picture"),
                                 TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
                         ),
                         resultSet.getString("description"),
                         new Book(
-                                resultSet.getLong("id_book"),
-                                resultSet.getString("name_book"),
+                                resultSet.getLong("book_id"),
+                                resultSet.getString("name"),
                                 resultSet.getString("author")
                         )));
             }
@@ -140,15 +140,15 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                         resultSet.getLong("comments_id"),
                         new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
                         new User(
-                                resultSet.getLong("id_user"),
-                                resultSet.getString("name_user"),
+                                resultSet.getLong("user_id"),
+                                resultSet.getString("name"),
                                 resultSet.getString("picture"),
                                 TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
                         ),
                         resultSet.getString("description"),
                         new Book(
-                                resultSet.getLong("id_book"),
-                                resultSet.getString("name_book"),
+                                resultSet.getLong("book_id"),
+                                resultSet.getString("name"),
                                 resultSet.getString("author")
                         )));
             }
@@ -178,14 +178,14 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                             new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
                             new User(
                                     resultSet.getLong("id_user"),
-                                    resultSet.getString("name_user"),
+                                    resultSet.getString("name"),
                                     resultSet.getString("picture"),
                                     TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
                             ),
                             resultSet.getString("description"),
                             new Book(
-                                    resultSet.getLong("id_book"),
-                                    resultSet.getString("name_book"),
+                                    resultSet.getLong("book_id"),
+                                    resultSet.getString("name"),
                                     resultSet.getString("author")
                             )));
                 }
