@@ -39,14 +39,20 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
 
     @Override
     public boolean update(Comment comment) {
-
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sqlUpdateComment = "UPDATE comments SET description = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlUpdateComment);
+            statement.setString(1, comment.getDescription());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public Comment getById(long commentId) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlGetComment = "SELECT * FROM comments WHEN id = ?";
+            String sqlGetComment = "SELECT * FROM comments WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sqlGetComment);
             statement.setLong(1, commentId);
 
