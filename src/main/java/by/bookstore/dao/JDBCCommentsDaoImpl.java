@@ -75,7 +75,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             preparedStatement.setLong(1, comment.getUser().getId());
             preparedStatement.setLong(2, comment.getBook().getId());
             preparedStatement.setString(3, comment.getDescription());
-            ResultSet resultSet = preparedStatement.executeQuery(isExistById);
+            ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
