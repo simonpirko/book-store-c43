@@ -24,5 +24,7 @@ public interface CommentsDao {
 
     boolean isExistById(long commentId);
 
+    List<Comment> getAllByBookIdSortByDate(long bookId);
+
 }
 
