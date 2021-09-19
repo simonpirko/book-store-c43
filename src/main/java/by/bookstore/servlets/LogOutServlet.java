@@ -1,7 +1,7 @@
 package by.bookstore.servlets;
 
 import by.bookstore.dao.BookDAO;
-import by.bookstore.dao.BookDAOImpl;
+import by.bookstore.dao.JDBCBookDAOImpl;
 import by.bookstore.entity.Book;
 import by.bookstore.entity.User;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @WebServlet
 public class LogOutServlet extends HttpServlet {
-    private final BookDAO bookDAO = new BookDAOImpl();
+    private final BookDAO bookDAO = new JDBCBookDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

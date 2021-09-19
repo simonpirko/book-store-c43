@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDAOImpl implements BookDAO {
-
+public class JDBCBookDAOImpl implements BookDAO {
 
     @Override
     public boolean saveBook(Book book) {
@@ -32,7 +31,6 @@ public class BookDAOImpl implements BookDAO {
         }
         return false;
     }
-
 
     @Override
     public boolean deleteById(long id) {
