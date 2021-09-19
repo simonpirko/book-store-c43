@@ -44,28 +44,157 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
 
     @Override
     public boolean update(Comment comment) {
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sqlUpdateComment = "UPDATE comments SET description = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlUpdateComment);
+            statement.setString(1, comment.getDescription());
+            statement.setLong(2, comment.getId());
+            return statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public Comment getById(long commentId) {
-        return null;
+        Comment comment = new Comment();
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sqlGetCommentById = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+                    "b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
+                    "FROM comments JOIN books b on b.id = comments.book_id" +
+                    "JOIN users u on u.id = comments.user_id WHERE comments.id = ? ";
+            PreparedStatement statement = connection.prepareStatement(sqlGetCommentById);
+            statement.setLong(1, commentId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next())
+            comment = new Comment(resultSet.getLong("comments_id"),
+                    new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
+                    new User(
+                            resultSet.getLong("user_id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("picture"),
+                            TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
+                    ),
+                    resultSet.getString("description"),
+                    new Book(
+                            resultSet.getLong("book_id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("author")
+                    ));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return comment;
     }
 
     @Override
     public List<Comment> getAllByBookId(long bookId) {
-        return null;
+        List<Comment> commentList = new ArrayList<>();
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sqlGetCommentByBook = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+                    " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
+                    " FROM comments JOIN books b on b.id = comments.book_id" +
+                    " JOIN users u on u.id = comments.user_id WHERE b.id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlGetCommentByBook);
+            statement.setLong(1, bookId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                commentList.add(new Comment(
+                        resultSet.getLong("comments_id"),
+                        new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
+                        new User(
+                                resultSet.getLong("user_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("picture"),
+                                TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
+                        ),
+                        resultSet.getString("description"),
+                        new Book(
+                                resultSet.getLong("book_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("author")
+                        )));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return commentList;
     }
 
     @Override
     public List<Comment> getAllByUserId(long userId) {
-        return null;
+        List<Comment> commentList = new ArrayList<>();
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sqlGetCommentByUser = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+                    " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
+                    " FROM comments JOIN users u on u.id = comments.user_id" +
+                    " JOIN books b on b.id = comments.book_id WHERE u.id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlGetCommentByUser);
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                commentList.add(new Comment(
+                        resultSet.getLong("comments_id"),
+                        new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
+                        new User(
+                                resultSet.getLong("user_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("picture"),
+                                TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
+                        ),
+                        resultSet.getString("description"),
+                        new Book(
+                                resultSet.getLong("book_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("author")
+                        )));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return commentList;
     }
+
 
     @Override
     public List<Comment> getAllByUserIdAndBookId(long userId, long bookId) {
-        return null;
-    }
+            List<Comment> commentList = new ArrayList<>();
+            try (Connection connection = MySQLConnection.getConnection()) {
+                String sqlGetCommentsByUserAndBook = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+                        " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
+                        " FROM comments JOIN users u on u.id = comments.user_id" +
+                        " JOIN books b on b.id = comments.book_id WHERE u.id = ? AND b.id = ?";
+                PreparedStatement statement = connection.prepareStatement(sqlGetCommentsByUserAndBook);
+                statement.setLong(1, userId);
+                statement.setLong(2, bookId);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    commentList.add(new Comment(
+                            resultSet.getLong("comment_id"),
+                            new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
+                            new User(
+                                    resultSet.getLong("id_user"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("picture"),
+                                    TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
+                            ),
+                            resultSet.getString("description"),
+                            new Book(
+                                    resultSet.getLong("book_id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("author")
+                            )));
+                }
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return commentList;
+        }
 
     @Override
     public boolean isExistByInfo(Comment comment) {
