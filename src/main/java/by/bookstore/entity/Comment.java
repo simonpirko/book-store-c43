@@ -34,6 +34,10 @@ public class Comment {
     public Comment() {
     }
 
+    public Comment(long like_id, User user, Book book) {
+
+    }
+
     public long getId() {
         return id;
     }
