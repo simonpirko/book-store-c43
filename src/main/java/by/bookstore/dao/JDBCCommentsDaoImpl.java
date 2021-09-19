@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.CompletionException;
 
 public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
@@ -38,27 +39,58 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
 
     @Override
     public boolean update(Comment comment) {
+
         return false;
     }
 
     @Override
     public Comment getById(long commentId) {
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sqlGetComment = "SELECT * FROM comments WHEN id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlGetComment);
+            statement.setLong(1, commentId);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public List<Comment> getAllByBookId(long bookId) {
-        return null;
+        try(Connection connection = MySQLConnection.getConnection()) {
+            String sqlGetCommentsByBook = "SELECT * FROM comments WHERE book_id = ? ";
+            PreparedStatement statement = connection.prepareStatement(sqlGetCommentsByBook);
+            statement.setLong(1, bookId);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }return null;
     }
 
     @Override
     public List<Comment> getAllByUserId(long userId) {
-        return null;
+        try(Connection connection = MySQLConnection.getConnection()) {
+            String sqlGetCommentsByUser = "SELECT * FROM comments WHERE user_id = ? ";
+            PreparedStatement statement = connection.prepareStatement(sqlGetCommentsByUser);
+            statement.setLong(1, userId);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }return null;
     }
 
     @Override
     public List<Comment> getAllByUserIdAndBookId(long userId, long bookId) {
-        return null;
+      try (Connection connection = MySQLConnection.getConnection()) {
+          String sqlGetCommentsByUserAndBook = "SELECT * FROM comments WHERE user_id = ? AND book_id = ?";
+          PreparedStatement statement = connection.prepareStatement(sqlGetCommentsByUserAndBook);
+         statement.setLong(1, userId);
+         statement.setLong(2, bookId);
+
+      } catch (SQLException throwables) {
+          throwables.printStackTrace();
+      } return null;
     }
 
     @Override
