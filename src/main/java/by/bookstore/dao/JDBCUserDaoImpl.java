@@ -10,8 +10,8 @@ public class JDBCUserDaoImpl implements UserDao {
     @Override
     public boolean save(User user) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "INSERT INTO users (name, login, password, picture, typeOfUser) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String query = "INSERT INTO users (name, login, password, picture, typeOfUser) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLogin());
             preparedStatement.setString(3, user.getPassword());
@@ -29,8 +29,8 @@ public class JDBCUserDaoImpl implements UserDao {
     public User getByLogin(String login) {
         User userByLogin = new User();
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "SELECT * FROM users WHERE login = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String query = "SELECT * FROM users WHERE login = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, login);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -53,8 +53,8 @@ public class JDBCUserDaoImpl implements UserDao {
     @Override
     public boolean updateName(User user, String newName) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "UPDATE users SET name = ? WHERE id = ? ";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String query = "UPDATE users SET name = ? WHERE id = ? ";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, newName);
             preparedStatement.setLong(2, user.getId());
             preparedStatement.execute();
@@ -68,8 +68,8 @@ public class JDBCUserDaoImpl implements UserDao {
     @Override
     public boolean updatePassword(User user, String newPassword) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "UPDATE users SET password = ? WHERE id = ? ";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String query = "UPDATE users SET password = ? WHERE id = ? ";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, newPassword);
             preparedStatement.setLong(2, user.getId());
             preparedStatement.execute();
@@ -83,8 +83,8 @@ public class JDBCUserDaoImpl implements UserDao {
     @Override
     public boolean isExistById(long id) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "SELECT * FROM users WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            String query = "SELECT * FROM users WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -99,8 +99,8 @@ public class JDBCUserDaoImpl implements UserDao {
     @Override
     public boolean isExistByLogin(String login) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "SELECT * FROM users WHERE login = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            String query = "SELECT * FROM users WHERE login = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

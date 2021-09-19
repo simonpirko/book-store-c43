@@ -16,8 +16,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
     public boolean save(Comment comment) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlSaveComment = "INSERT INTO comments VALUES (default,?,?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(sqlSaveComment);
+            String query = "INSERT INTO comments VALUES (default,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setObject(1, comment.getTime());
             statement.setLong(2, comment.getUser().getId());
             statement.setString(3, comment.getDescription());
@@ -32,8 +32,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
     public boolean deleteById(long commentId) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlDeleteComment = "DELETE FROM comments WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlDeleteComment);
+            String query = "DELETE FROM comments WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, commentId);
             return statement.execute();
         } catch (SQLException throwables) {
@@ -45,8 +45,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
     public boolean update(Comment comment) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlUpdateComment = "UPDATE comments SET description = ? WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlUpdateComment);
+            String query = "UPDATE comments SET description = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, comment.getDescription());
             statement.setLong(2, comment.getId());
             return statement.execute();
@@ -60,11 +60,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     public Comment getById(long commentId) {
         Comment comment = new Comment();
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlGetCommentById = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
-                    "b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
-                    "FROM comments JOIN books b on b.id = comments.book_id" +
-                    "JOIN users u on u.id = comments.user_id WHERE comments.id = ? ";
-            PreparedStatement statement = connection.prepareStatement(sqlGetCommentById);
+            String query = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+                    " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
+                    " FROM comments JOIN books b on b.id = comments.book_id" +
+                    " JOIN users u on u.id = comments.user_id WHERE comments.id = ? ";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, commentId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
@@ -93,11 +93,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     public List<Comment> getAllByBookId(long bookId) {
         List<Comment> commentList = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlGetCommentByBook = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+            String query = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
                     " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
                     " FROM comments JOIN books b on b.id = comments.book_id" +
                     " JOIN users u on u.id = comments.user_id WHERE b.id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlGetCommentByBook);
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, bookId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -128,11 +128,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     public List<Comment> getAllByUserId(long userId) {
         List<Comment> commentList = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sqlGetCommentByUser = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+            String query = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
                     " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
                     " FROM comments JOIN users u on u.id = comments.user_id" +
                     " JOIN books b on b.id = comments.book_id WHERE u.id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlGetCommentByUser);
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -164,11 +164,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     public List<Comment> getAllByUserIdAndBookId(long userId, long bookId) {
             List<Comment> commentList = new ArrayList<>();
             try (Connection connection = MySQLConnection.getConnection()) {
-                String sqlGetCommentsByUserAndBook = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+                String query = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
                         " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
                         " FROM comments JOIN users u on u.id = comments.user_id" +
                         " JOIN books b on b.id = comments.book_id WHERE u.id = ? AND b.id = ?";
-                PreparedStatement statement = connection.prepareStatement(sqlGetCommentsByUserAndBook);
+                PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, userId);
                 statement.setLong(2, bookId);
                 ResultSet resultSet = statement.executeQuery();
@@ -199,8 +199,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
     public boolean isExistByInfo(Comment comment) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String isExistById = "SELECT * FROM comments WHERE (user_id = ? && book_id = ? && description = ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(isExistById);
+            String query = "SELECT * FROM comments WHERE (user_id = ? && book_id = ? && description = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, comment.getUser().getId());
             preparedStatement.setLong(2, comment.getBook().getId());
             preparedStatement.setString(3, comment.getDescription());
@@ -215,8 +215,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     @Override
     public boolean isExistById(long commentId) {
         try (Connection connection = MySQLConnection.getConnection()) {
-            String isExistById = "SELECT * FROM comments WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(isExistById);
+            String query = "SELECT * FROM comments WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, commentId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
@@ -230,11 +230,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     public List<Comment> getAllByBookIdSortByDate(long bookId) {
         List<Comment> comments = new ArrayList<>();
         try (Connection connection = MySQLConnection.getConnection()) {
-            String isExistById = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
+            String query = "SELECT comments.id AS comments_id, comments.time, comments.description, " +
                     " b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser" +
                     " FROM comments JOIN books b on b.id = comments.book_id" +
                     " JOIN users u on u.id = comments.user_id WHERE b.id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(isExistById);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, bookId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
