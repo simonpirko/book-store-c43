@@ -16,8 +16,7 @@ public class UserService {
 
     public boolean saveUser(User user){
         if(userDao.isExistByLogin(user.getLogin())){
-            userDao.save(user);
-            return true;
+            return userDao.save(user);
         }
         return false;
     }
@@ -31,16 +30,14 @@ public class UserService {
 
     public boolean updateName(User user, String newName){
         if (!user.getName().equals(newName)){
-            userDao.updateName(user, newName);
-            return true;
+            return userDao.updateName(user, newName);
         }
         return false;
     }
 
     public boolean updatePassword(User user, String oldPassword, String newPassword){
         if (user.getPassword().equals(oldPassword) && !user.getPassword().equals(newPassword)){
-            userDao.updatePassword(user, newPassword);
-            return true;
+            return userDao.updatePassword(user, newPassword);
         }
         return false;
     }
