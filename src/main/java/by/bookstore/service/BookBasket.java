@@ -22,7 +22,7 @@ public class BookBasket {
     public boolean saveInBasket(Book book, User user) {
         if (!basketBook.contains(book)) {
             bookDAO.updateBookReservedStatus(book.getId(), true);
-            basketBook.addAll(bookDAO.getReservedBookByUser(user.getId(), true));
+            basketBook = (bookDAO.getReservedBookByUser(user.getId(), true));
             return true;
         }
         return false;
