@@ -20,18 +20,12 @@ public class CommentService {
         return commentsDao;
     }
 
-    public void setCommentsDao(CommentsDao commentsDao) {
-        this.commentsDao = commentsDao;
-    }
-
     public boolean save(Comment comment) {
-        return commentsDao.save(comment);
+        return commentsDao.isExistByInfo(comment) && commentsDao.save(comment);
     }
 
     public boolean delete(long commentId){
-        if (commentsDao.isExistById(commentId)){
-            commentsDao.deleteById(commentId);
-        }return false;
+        return commentsDao.isExistById(commentId) && commentsDao.deleteById(commentId);
     }
 
     public List<Comment> getAllByUserId(long userId){
@@ -51,7 +45,7 @@ public class CommentService {
     }
 
     public boolean update(Comment comment){
-        return commentsDao.update(comment);
+        return commentsDao.isExistByInfo(comment) && commentsDao.update(comment);
     }
 
     public List<Comment> getAllByBookIdSortByDate(long bookId){
