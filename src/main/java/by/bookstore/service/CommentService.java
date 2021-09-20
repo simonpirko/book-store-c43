@@ -1,4 +1,4 @@
-package by.bookstore.service.comment;
+package by.bookstore.service;
 
 import by.bookstore.dao.CommentsDao;
 import by.bookstore.dao.JDBCCommentsDaoImpl;
