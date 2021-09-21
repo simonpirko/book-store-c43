@@ -5,6 +5,7 @@ import by.bookstore.dao.JDBCCommentsDaoImpl;
 import by.bookstore.entity.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CommentService {
     private CommentsDao commentsDao;
@@ -40,8 +41,10 @@ public class CommentService {
         return commentsDao.getAllByBookId(bookId);
     }
 
-    public Comment getById(long commentId){
-        return commentsDao.getById(commentId);
+    public Optional<Comment> getById(long commentId) {
+        if (commentsDao.isExistById(commentId)) {
+            return Optional.of(commentsDao.getById(commentId));
+        }else return Optional.empty();
     }
 
     public boolean update(Comment comment){

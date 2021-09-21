@@ -5,12 +5,20 @@ import by.bookstore.entity.Book;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookService {
     private BookDAO bookDAO;
+
+
+    public Optional<Book> getBoolById(long idBook){
+        if(bookDAO.isExistById(idBook)){
+            return Optional.of(bookDAO.getBookById(idBook));
+        }else return Optional.empty();
+    }
 
 
     public boolean saveBookById(Book book){
