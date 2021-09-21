@@ -11,9 +11,8 @@ public class BookBasket {
     private BookDAO bookDAO;
     private List<Book> basketBook = new ArrayList<>();
 
-    public BookBasket(BookDAO bookDAO, List<Book> basketBook) {
+    public BookBasket(BookDAO bookDAO) {
         this.bookDAO = bookDAO;
-        this.basketBook = basketBook;
     }
 
     public BookBasket() {

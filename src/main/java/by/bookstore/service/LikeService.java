@@ -15,7 +15,7 @@ public class LikeService {
     }
 
     public boolean saveLike (Like like) {
-        if (likeDAO.isExistByUserAndBook(like)) {
+        if (!likeDAO.isExistByUserAndBook(like)) {
             return likeDAO.save(like);
         }
         return false;
