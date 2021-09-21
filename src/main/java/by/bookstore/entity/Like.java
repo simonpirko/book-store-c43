@@ -22,7 +22,7 @@ public class Like {
     public Like() {
     }
 
-    public Like getUser() {
+    public User getUser() {
         return user;
     }
 
