@@ -75,10 +75,12 @@ public class FacadeService {
         return Dependencies.commentService.save(comment);
     }
 
-    public boolean delete(Comment comment, User user){
+    public boolean delete(Comment comment, User user) {
         Optional<Comment> commentOptional = Dependencies.commentService.getById(comment.getId());
-        if ((commentOptional.isPresent() && commentOptional.get().getUser().equals(user)) || user.getTypeOfUser().equals(TypeOfUser.ADMIN) ) {
-            return Dependencies.commentService.delete(comment.getId());
+        if (commentOptional.isPresent()) {
+            if (commentOptional.get().getUser().equals(user) || user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
+                return Dependencies.commentService.delete(comment.getId());
+            } else return false;
         }else return false;
     }
 
