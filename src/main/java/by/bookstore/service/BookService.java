@@ -14,7 +14,7 @@ public class BookService {
     private BookDAO bookDAO;
 
 
-    public Optional<Book> getBoolById(long idBook){
+    public Optional<Book> getBookById(long idBook){
         if(bookDAO.isExistById(idBook)){
             return Optional.of(bookDAO.getBookById(idBook));
         }else return Optional.empty();
