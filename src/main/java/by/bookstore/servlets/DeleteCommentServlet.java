@@ -10,26 +10,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet()
 public class DeleteCommentServlet extends HttpServlet {
-    private FacadeService facadeService;
+    private final FacadeService facadeService = new FacadeService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("").forward(req, resp);
+        doPost(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long commentId = Long.parseLong(req.getParameter("idComment"));
         User user = (User) req.getSession().getAttribute("user");
-        if (facadeService.getComment(commentId).isPresent()) {
-            Comment comment = facadeService.getComment(commentId).get();
+        Optional<Comment> optionalComment = facadeService.getComment(commentId);
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
             if (facadeService.delete(comment, user)) {
-                req.getSession().setAttribute("message_remove_com", "ok");
+                req.setAttribute("message_remove_com", "ok");
             } else {
-                req.getSession().setAttribute("message_remove_com", "error");
+                req.setAttribute("message_remove_com", "error");
             }
         }
         getServletContext().getRequestDispatcher("").forward(req, resp);

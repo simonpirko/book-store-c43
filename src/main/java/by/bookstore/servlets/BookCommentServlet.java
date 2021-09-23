@@ -13,13 +13,13 @@ import java.util.List;
 
 @WebServlet()
 public class BookCommentServlet extends HttpServlet {
-    private FacadeService facadeService;
+    private final FacadeService facadeService = new FacadeService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long bookId = Long.parseLong(req.getParameter("bookId"));
         List<Comment> list = facadeService.getCommentByBookBySorted(bookId);
-        req.getSession().setAttribute("listCommentsByBookId", list);
+        req.setAttribute("listCommentsByBookId", list);
         getServletContext().getRequestDispatcher("").forward(req, resp);
     }
 
