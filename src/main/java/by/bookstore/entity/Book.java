@@ -45,6 +45,16 @@ public class Book {
         this.rating = rating;
         this.price = price;
         this.reserved = reserved;
+
+    }
+
+    public Book(String name, String author, double rating, double price, boolean reserved, User user) {
+        this.name = name;
+        this.author = author;
+        this.rating = rating;
+        this.price = price;
+        this.reserved = reserved;
+        this.user = user;
     }
 
     public Book(long id, String name, String author) {
