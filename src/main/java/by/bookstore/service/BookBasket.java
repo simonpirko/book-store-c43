@@ -34,4 +34,8 @@ public class BookBasket {
     public void setStatusOwnerAfterPurchase(User user){
         basketBook.forEach(x -> bookDAO.updateBookOwner(x.getId(), user.getId()));
     }
+
+    public void setReservedStatusAfterLogOut(){
+        basketBook.forEach(b -> bookDAO.updateBookReservedStatus(b.getId(), false));
+    }
 }

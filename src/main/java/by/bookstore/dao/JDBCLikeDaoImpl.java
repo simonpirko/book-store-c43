@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCLikeDaoImpl implements LikeDAO {
-    private static String GET_LIKES_BY_BOOK = " SELECT likes.id AS like_id, u.id AS id_user, u.name AS name_user, u.typeOfUser, u.picture, b.id AS id_book, b.name AS name_book, b.author" +
+    private static final String GET_LIKES_BY_BOOK = " SELECT likes.id AS like_id, u.id AS id_user, u.name AS name_user, u.typeOfUser, u.picture, b.id AS id_book, b.name AS name_book, b.author" +
             " FROM likes LEFT JOIN books b on b.id = likes.book_id LEFT JOIN users u on u.id = likes.user_id WHERE book_id = ? ";
-    private static String SAVE = " INSERT INTO likes (user_id, book_id) VALUES (?, ?) ";
-    private static String IS_EXIST_BY_USER_BOOK = " SELECT * FROM likes WHERE user_id = ? and book_id = ? ";
+    private static final String SAVE = " INSERT INTO likes (user_id, book_id) VALUES (?, ?) ";
+    private static final String IS_EXIST_BY_USER_BOOK = " SELECT * FROM likes WHERE user_id = ? and book_id = ? ";
 
     @Override
     public boolean save(Like like) {

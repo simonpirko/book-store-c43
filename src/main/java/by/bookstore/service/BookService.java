@@ -36,23 +36,25 @@ public class BookService {
     }
 
 
-    public boolean deleteBookById(long id){             // на фасаде сделать проверку  user на typeOfUser
+    public boolean deleteBookById(long id){
         if(bookDAO.isExistById(id)){
             return bookDAO.deleteById(id);
         }
         return false;
     }
 
-    public boolean updateBook(Book book){               // на фасаде сделать проверку  user на typeOfUser
+    public boolean updateBook(Book book){
         if(bookDAO.isExistById(book.getId())){
             return bookDAO.updateBook(book);
         }
         return false;
     }
 
-    public boolean updateBookRating(long idBook, double rating){
+    public boolean updateBookRating(long idBook, int rating){
         if(bookDAO.isExistById(idBook)){
-            return bookDAO.updateRating(idBook, rating);
+            double oldRating = getBookById(idBook).get().getRating();
+            double newRating = (oldRating + rating) / 2;
+            return bookDAO.updateRating(idBook, newRating);
         }
         return false;
     }

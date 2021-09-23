@@ -13,16 +13,16 @@ import java.util.List;
 
 public class JDBCCommentsDaoImpl implements CommentsDao {
 
-    private static String SAVE = " INSERT INTO comments(time, user_id, description, book_id) VALUES (?,?,?,?) ";
-    private static String BY_ID = " WHERE  comments.id = ? ";
-    private static String DELETE = " DELETE FROM comments ";
-    private static String UPDATE = " UPDATE comments SET description = ? ";
-    private static String GET_COMMENTS = " SELECT comments.id AS comments_id, comments.time, comments.description, b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser " +
+    private static final String SAVE = " INSERT INTO comments(time, user_id, description, book_id) VALUES (?,?,?,?) ";
+    private static final String BY_ID = " WHERE  comments.id = ? ";
+    private static final String DELETE = " DELETE FROM comments ";
+    private static final String UPDATE = " UPDATE comments SET description = ? ";
+    private static final String GET_COMMENTS = " SELECT comments.id AS comments_id, comments.time, comments.description, b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser " +
             "FROM comments LEFT JOIN books b on b.id = comments.book_id LEFT JOIN users u on u.id = comments.user_id ";
-    private static String BY_BOOK_ID = " WHERE b.id = ? ";
-    private static String BY_USER_ID = " WHERE u.id = ? ";
-    private static String BY_INFO = " WHERE (user_id = ? AND book_id = ? AND description = ?) ";
-    private static String IS_EXIST = " SELECT * FROM comments ";
+    private static final String BY_BOOK_ID = " WHERE b.id = ? ";
+    private static final String BY_USER_ID = " WHERE u.id = ? ";
+    private static final String BY_INFO = " WHERE (user_id = ? AND book_id = ? AND description = ?) ";
+    private static final String IS_EXIST = " SELECT * FROM comments ";
 
 
     @Override

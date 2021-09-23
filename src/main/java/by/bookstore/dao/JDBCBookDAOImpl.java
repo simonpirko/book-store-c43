@@ -14,20 +14,19 @@ import java.util.List;
 
 public class JDBCBookDAOImpl implements BookDAO {
 
-    private static String SAVE = " INSERT INTO books(name, author, rating, price, reserved, user_id) VALUES (?, ?, ?, ?, ?, ?)";
-    private static String DELETE = " DELETE FROM books b ";
-    private static String UPDATE_BOOK = " UPDATE books b SET b.name = ?, b.author = ?, b.rating = ?, b.price = ?, b.reserved = ?, b.user_id = ? ";
-    private static String BY_ID = " WHERE b.id = ? ";
-    private static String UPDATE_BOOK_RESERVED = " UPDATE books b SET b.reserved = ? ";
-    private static String UPDATE_BOOK_OWNER = " UPDATE books b SET b.user_id = ? ";
-    private static String IS_EXIST_BY_ID = " SELECT b.id FROM books b ";
-    private static String BY_AUTHOR = " WHERE b.name = ? AND b.author = ?";
-    private static String IS_EXIST_BY_AUTHOR = " SELECT b.name, b.author FROM books b ";
-    private static String GET_BOOK = " SELECT * FROM books b LEFT JOIN users u on u.id = b.user_id ";
-    private static String GET_BOOKS_BY_USER = " SELECT * FROM books b WHERE b.user_id = ? ";
-    private static String GET_RESERVED_BOOKS_BY_USER = " SELECT * FROM books b WHERE b.reserved = ? AND b.user_id = ? ";
-    private static String UPDATE_RATING = " UPDATE books b SET b.rating = ? ";
-
+    private static final String SAVE = " INSERT INTO books(name, author, rating, price, reserved, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String DELETE = " DELETE FROM books b ";
+    private static final String UPDATE_BOOK = " UPDATE books b SET b.name = ?, b.author = ?, b.rating = ?, b.price = ?, b.reserved = ?, b.user_id = ? ";
+    private static final String BY_ID = " WHERE b.id = ? ";
+    private static final String UPDATE_BOOK_RESERVED = " UPDATE books b SET b.reserved = ? ";
+    private static final String UPDATE_BOOK_OWNER = " UPDATE books b SET b.user_id = ? ";
+    private static final String IS_EXIST_BY_ID = " SELECT b.id FROM books b ";
+    private static final String BY_AUTHOR = " WHERE b.name = ? AND b.author = ?";
+    private static final String IS_EXIST_BY_AUTHOR = " SELECT b.name, b.author FROM books b ";
+    private static final String GET_BOOK = " SELECT * FROM books b LEFT JOIN users u on u.id = b.user_id ";
+    private static final String GET_BOOKS_BY_USER = " SELECT * FROM books b WHERE b.user_id = ? ";
+    private static final String GET_RESERVED_BOOKS_BY_USER = " SELECT * FROM books b WHERE b.reserved = ? AND b.user_id = ? ";
+    private static final String UPDATE_RATING = " UPDATE books b SET b.rating = ? ";
 
     @Override
     public boolean saveBook(Book book) {

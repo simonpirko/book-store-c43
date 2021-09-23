@@ -28,7 +28,7 @@ public class DeleteCommentServlet extends HttpServlet {
         Optional<Comment> optionalComment = facadeService.getComment(commentId);
         if (optionalComment.isPresent()) {
             Comment comment = optionalComment.get();
-            if (facadeService.delete(comment, user)) {
+            if (facadeService.deleteComment(comment, user)) {
                 req.setAttribute("message_remove_com", "ok");
             } else {
                 req.setAttribute("message_remove_com", "error");
