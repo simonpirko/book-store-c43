@@ -36,6 +36,11 @@ public class User {
         this.typeOfUser = typeOfUser;
     }
 
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public User(long id) {
         this.id = id;
     }

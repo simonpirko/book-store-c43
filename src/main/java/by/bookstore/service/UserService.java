@@ -15,14 +15,14 @@ public class UserService {
     public UserService() {}
 
     public boolean saveUser(User user){
-        if(userDao.isExistByLogin(user.getLogin())){
+        if(!userDao.isExistByLogin(user.getLogin())){
             return userDao.save(user);
         }
         return false;
     }
 
     public Optional<User> authorization(User user){
-        if(userDao.isExistById(user.getId())){
+        if(userDao.isExistByLogin(user.getLogin())){
             return Optional.of(userDao.getByLogin(user.getLogin()));
         }
         return Optional.empty();
