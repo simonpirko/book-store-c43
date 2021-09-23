@@ -29,7 +29,7 @@ public class BookService {
     }
 
     public boolean saveBookByNameAuthor(Book book){
-        if(bookDAO.isExistByNameAuthor(book.getName(), book.getAuthor())){
+        if(!bookDAO.isExistByNameAuthor(book.getName(), book.getAuthor())){
             return bookDAO.saveBook(book);
         }
         return false;
