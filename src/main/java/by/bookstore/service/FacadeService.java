@@ -116,7 +116,7 @@ public class FacadeService {
      }
 
      public boolean addBookInBasket(long idBook, User user){
-        Optional<Book> optionalBook = Dependencies.bookService.getBoolById(idBook);
+        Optional<Book> optionalBook = Dependencies.bookService.getBookById(idBook);
         if (optionalBook.isPresent()){
             return Dependencies.bookBasket.saveInBasket(optionalBook.get(), user);
         }else return false;
