@@ -8,12 +8,12 @@ import java.sql.*;
 
 public class JDBCUserDaoImpl implements UserDao {
 
-    private static String SAVE = " INSERT INTO users (name, login, password, picture, typeOfUser) VALUES (?, ?, ?, ?, ?) ";
-    private static String GET_USERS = " SELECT * FROM users ";
-    private static String BY_ID = " WHERE id = ? ";
-    private static String BY_LOGIN = "WHERE login = ? ";
-    private static String UPDATE_PASSWORD = " UPDATE users SET password = ? ";
-    private static String UPDATE_NAME = " UPDATE users SET name = ? ";
+    private static final String SAVE = " INSERT INTO users (name, login, password, picture, typeOfUser) VALUES (?, ?, ?, ?, ?) ";
+    private static final String GET_USERS = " SELECT * FROM users ";
+    private static final String BY_ID = " WHERE id = ? ";
+    private static final String BY_LOGIN = "WHERE login = ? ";
+    private static final String UPDATE_PASSWORD = " UPDATE users SET password = ? ";
+    private static final String UPDATE_NAME = " UPDATE users SET name = ? ";
     @Override
     public boolean save(User user) {
         try (Connection connection = MySQLConnection.getConnection()) {
