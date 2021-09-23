@@ -16,7 +16,7 @@ public class BookStoreServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().setAttribute("allBooks", facadeService.getBooks());
+        req.setAttribute("allBooks", facadeService.getBooks());
         req.getServletContext().getRequestDispatcher("").forward(req, resp);
     }
 }

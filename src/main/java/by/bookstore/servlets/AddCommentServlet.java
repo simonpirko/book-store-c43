@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 @WebServlet()
 public class AddCommentServlet extends HttpServlet {
-    private FacadeService facadeService;
+    private final FacadeService facadeService = new FacadeService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,16 +24,16 @@ public class AddCommentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String description = req.getParameter("description");
         long bookId = Long.parseLong(req.getParameter("bookId"));
+        String description = req.getParameter("description");
         User user = (User) req.getSession().getAttribute("user");
         LocalDateTime localDateTime = java.time.LocalDateTime.now();
         Book book = new Book(bookId);
         Comment comment = new Comment(localDateTime, user, description, book);
         if (facadeService.addComment(comment)) {
-            req.getSession().setAttribute("message_add_com", "ok");
+            req.setAttribute("message_add_com", "ok");
         } else {
-            req.getSession().setAttribute("message_add_com", "error");
+            req.setAttribute("message_add_com", "error");
         }
         getServletContext().getRequestDispatcher("").forward(req, resp);
 
