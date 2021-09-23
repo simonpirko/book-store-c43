@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet
-public class LogOutServlet extends HttpServlet {
+public class
+LogOutServlet extends HttpServlet {
     private final BookDAO bookDAO = new JDBCBookDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute("");
         List<Book> books = (List<Book>) req.getSession().getAttribute("");
         books.forEach(b -> bookDAO.updateBookReservedStatus(b.getId(), false));
         req.getSession().invalidate();
