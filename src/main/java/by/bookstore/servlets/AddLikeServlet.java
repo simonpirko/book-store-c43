@@ -27,7 +27,6 @@ public class AddLikeServlet extends HttpServlet {
         Book book = new Book(bookId);
         User user = (User) req.getSession().getAttribute("user");
         Like like = new Like(user, book);
-
         facade.addLike(like);
         req.getServletContext().getRequestDispatcher("").forward(req, resp);
     }

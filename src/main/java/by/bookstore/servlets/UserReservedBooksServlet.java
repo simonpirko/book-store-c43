@@ -28,7 +28,6 @@ public class UserReservedBooksServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean isBuy = Boolean.parseBoolean(req.getParameter("isBuy"));
         User user = (User) req.getSession().getAttribute("user");
-
         if(isBuy){
             facade.confirmPurchase(user);
             req.setAttribute("message_purchase", "Items purchased successfully!");

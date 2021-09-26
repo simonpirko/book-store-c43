@@ -17,7 +17,7 @@ public class UpdateNameUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/changeName.jsp").forward(req, resp);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class UpdateNameUserServlet extends HttpServlet {
         }else {
             req.setAttribute("message_upd_n", "Unsuccessfully update name");
         }
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/changeName.jsp").forward(req, resp);
 
     }
 }
