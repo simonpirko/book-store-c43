@@ -54,7 +54,7 @@
                               <li class="nav-item dropdown" style="padding-top: 13px; padding-left: 0">
                                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                      <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                      <li><a class="dropdown-item" href="/account">Account</a></li>
                                       <li><a class="dropdown-item" href="/addBook">Add book</a></li>
                                       <li><hr class="dropdown-divider"></li>
                                       <li><a class="dropdown-item" href="/logout">Sign-out</a></li>
