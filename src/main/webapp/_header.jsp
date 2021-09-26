@@ -34,10 +34,10 @@
           <div style="padding-right: 150px">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
                       <li class="nav-item">
-                          <a class="nav-link active" href="/authorization">Login</a>
+                          <a class="nav-link active" href="/auth">Login</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link active"  href="/registration">Sign-up</a>
+                          <a class="nav-link active"  href="/reg">Sign-up</a>
                       </li>
                       <li style="margin-left:  150px">
                           <div class="pull-right navbar-text">
