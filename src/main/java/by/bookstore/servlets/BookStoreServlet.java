@@ -19,4 +19,6 @@ public class BookStoreServlet extends HttpServlet {
         req.setAttribute("allBooks", facadeService.getBooks());
         req.getServletContext().getRequestDispatcher("").forward(req, resp);
     }
+
+
 }
