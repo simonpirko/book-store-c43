@@ -33,12 +33,14 @@
           </a>
           <div style="padding-right: 150px">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+                    <c:if test="${sessionScope.user == null}">
                       <li class="nav-item">
                           <a class="nav-link active" href="/auth">Login</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link active"  href="/reg">Sign-up</a>
                       </li>
+                        </c:if>
                       <li style="margin-left:  150px">
                           <div class="pull-right navbar-text">
                               <c:if test="${sessionScope.user == null}">
@@ -59,7 +61,7 @@
                                   </ul>
                               </li>
                               </c:if>
-                              <a class="pull-right navbar-text"  style="padding-left: 30px" href="">
+                              <a class="pull-right navbar-text"  style="padding-left: 30px" href="/userReservedBooks">
                                   <img src="/images/basket_2.png" width="30px" height="30px">
                               </a>
                           </div>

@@ -25,11 +25,13 @@ public class AuthorizationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        Optional<User> optionalUser = facadeService.authorization(new User(login,password));
-        if(optionalUser.isPresent()){
+        Optional<User> optionalUser = facadeService.authorization(new User(login, password));
+        if (optionalUser.isPresent()) {
             req.getSession().setAttribute("user", optionalUser.get());
             req.setAttribute("message_SignIn", "Authorization passed successfully");
-        }else req.setAttribute("message_SignIn", "Its user hasn't registered yet");
+        } else {
+            req.setAttribute("message_SignIn", "Its user hasn't registered yet");
+        }
         req.getServletContext().getRequestDispatcher("/authorization.jsp").forward(req, resp);
     }
 }

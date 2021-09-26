@@ -27,9 +27,11 @@ public class RegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
         String URL = req.getParameter("picture");
         User user = new User(name, login, password, URL, TypeOfUser.USER);
-        if(facadeService.registration(user)){
+        if (facadeService.registration(user)) {
             req.setAttribute("message_reg", "Registration passed successfully");
-        }else req.setAttribute("message_reg", "Its user has existed yet" );
+        } else {
+            req.setAttribute("message_reg", "Its user has existed yet");
+        }
         req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 }

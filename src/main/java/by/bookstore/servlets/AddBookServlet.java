@@ -2,8 +2,6 @@ package by.bookstore.servlets;
 
 
 import by.bookstore.entity.Book;
-import by.bookstore.entity.Comment;
-import by.bookstore.entity.Like;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
 
@@ -13,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @WebServlet(name="AddBookServlet", urlPatterns = "/addBook")
@@ -24,8 +20,7 @@ public class AddBookServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("").forward(req, resp);
-
+        getServletContext().getRequestDispatcher("/saveBook.jsp").forward(req, resp);
     }
 
 
@@ -33,8 +28,8 @@ public class AddBookServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String name = req.getParameter("name");
        String author = req.getParameter("author");
-       double rating = Double.parseDouble("rating");
-       double price = Double.parseDouble("price");
+       double rating = Double.parseDouble(req.getParameter("rating"));
+       double price = Double.parseDouble(req.getParameter("price"));
        User user = (User)req.getSession().getAttribute("user");
 
        Book book = new Book(name, author, rating, price, false, new User(user.getId()));
@@ -43,7 +38,7 @@ public class AddBookServlet extends HttpServlet {
        } else {
            req.setAttribute("message_add_book","Book already exists!");
        }
-        getServletContext().getRequestDispatcher("").forward(req, resp);
+        getServletContext().getRequestDispatcher("/saveBook.jsp").forward(req, resp);
        }
 
     }
