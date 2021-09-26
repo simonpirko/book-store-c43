@@ -17,7 +17,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class RegistrationServlet extends HttpServlet {
         if(facadeService.registration(user)){
             req.setAttribute("message_reg", "Registration passed successfully");
         }else req.setAttribute("message_reg", "Its user has existed yet" );
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 }

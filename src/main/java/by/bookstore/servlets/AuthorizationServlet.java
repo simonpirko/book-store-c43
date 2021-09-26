@@ -18,7 +18,7 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/authorization.jsp").forward(req, resp);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class AuthorizationServlet extends HttpServlet {
             req.getSession().setAttribute("user", optionalUser.get());
             req.setAttribute("message_SignIn", "Authorization passed successfully");
         }else req.setAttribute("message_SignIn", "Its user hasn't registered yet");
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/authorization.jsp").forward(req, resp);
     }
 }

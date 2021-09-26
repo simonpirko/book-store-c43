@@ -25,7 +25,7 @@
 <body>
 <div class="container" >
     <div class="row row-cols-auto">  <%-- Количество книг на ширину контейнера: auto или требуемое число --%>
-        <%--       <c:forEach items="${requestScope.allBooks}" var="book">--%>
+               <c:forEach items="${requestScope.allBooks}" var="book">
         <div class="col">
             <div class="card" style="width: 16rem; background-color: #fafcfa; border-radius:8px; margin-top: 20px">
                 <div class="card-body">
@@ -54,15 +54,14 @@
                         </div>
                         <div type="btn">
                             <a href="#" class="btn  btn-sm disabled" type="button"  style="border-radius: 100px; background-color: #b6d9b6">
-                                0 ${bookLikes}
+                                ${book.likes}
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <%--        </c:forEach>--%>
-
+                </c:forEach>
     </div>
 </div>
 
