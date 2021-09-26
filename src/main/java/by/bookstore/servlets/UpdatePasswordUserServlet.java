@@ -17,7 +17,7 @@ public class UpdatePasswordUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/changePassword.jsp").forward(req, resp);
     }
 
     @Override
@@ -25,12 +25,11 @@ public class UpdatePasswordUserServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         String newPassword = req.getParameter("newPassword");
         String oldPassword = req.getParameter("oldPassword");
-
         if (facadeService.changePassword(user, newPassword, oldPassword)){
             req.setAttribute("message_upd_p", "Successfully update password");
         }else {
             req.setAttribute("message_upd_p", "Unsuccessfully update password");
         }
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/changePassword.jsp").forward(req, resp);
     }
 }
