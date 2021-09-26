@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet()
+@WebServlet(name = "UserReservedBooksServlet", urlPatterns = "/userReservedBooks")
 public class UserReservedBooksServlet extends HttpServlet {
     private final FacadeService facade = new FacadeService();
 

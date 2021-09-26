@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet
+@WebServlet(name = "AuthorizationServlet", urlPatterns = "/auth")
 public class AuthorizationServlet extends HttpServlet {
 
     private final FacadeService facadeService = new FacadeService();

@@ -34,7 +34,7 @@ alter table books
 create table if not exists comments
 (
 	id int auto_increment,
-	time datetime not null,
+	time timestamp not null,
 	user_id int not null,
 	description varchar(500) not null,
 	book_id int not null,

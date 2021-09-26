@@ -29,7 +29,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     public boolean save(Comment comment) {
         try (Connection connection = MySQLConnection.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SAVE);
-            statement.setObject(1, comment.getTime());
+            statement.setTimestamp(1, comment.getTime());
             statement.setLong(2, comment.getUser().getId());
             statement.setString(3, comment.getDescription());
             statement.setLong(4, comment.getBook().getId());
@@ -170,8 +170,9 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
 
     private void getCommentFromResult(Comment comment, ResultSet resultSet) throws SQLException{
         if (resultSet.next()) {
-            comment = new Comment(resultSet.getLong("comments_id"),
-                    new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
+            comment = new Comment(
+                    resultSet.getLong("comments_id"),
+                    resultSet.getTimestamp("time"),
                     new User(
                             resultSet.getLong("user_id"),
                             resultSet.getString("name"),
@@ -191,7 +192,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
         while (resultSet.next()) {
             commentList.add(new Comment(
                     resultSet.getLong("comments_id"),
-                    new Date(resultSet.getTime("time").getTime()).toLocalDate().atStartOfDay(),
+                    resultSet.getTimestamp("time"),
                     new User(
                             resultSet.getLong("user_id"),
                             resultSet.getString("name"),

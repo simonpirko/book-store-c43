@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet()
+@WebServlet(name = "BookCommentServlet", urlPatterns = "/bookComm")
 public class BookCommentServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
 

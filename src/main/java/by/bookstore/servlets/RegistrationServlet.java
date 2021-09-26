@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet
+@WebServlet(name = "RegistrationServlet", urlPatterns = "/reg")
 public class RegistrationServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet
+@WebServlet(name = "UpdateBookInfoServlet", urlPatterns = "/updBook")
 public class UpdateBookInfoServlet extends HttpServlet {
     private final FacadeService facade = new FacadeService();
     private long idToUpdate = 0;

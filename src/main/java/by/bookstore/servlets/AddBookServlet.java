@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@WebServlet(name="AddBookServlet", urlPatterns = "")
+@WebServlet(name="AddBookServlet", urlPatterns = "/addBook")
 public class AddBookServlet extends HttpServlet {
     private final FacadeService  facadeService = new FacadeService();
 

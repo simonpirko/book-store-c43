@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet()
+@WebServlet(name = "DeleteCommentServlet", urlPatterns = "/deleteComm")
 public class DeleteCommentServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
 

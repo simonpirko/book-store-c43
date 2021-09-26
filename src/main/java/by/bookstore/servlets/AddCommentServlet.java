@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@WebServlet()
+@WebServlet(name = "AddCommentServlet", urlPatterns = "/addComment")
 public class AddCommentServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
 
@@ -27,16 +28,14 @@ public class AddCommentServlet extends HttpServlet {
         long bookId = Long.parseLong(req.getParameter("bookId"));
         String description = req.getParameter("description");
         User user = (User) req.getSession().getAttribute("user");
-        LocalDateTime localDateTime = java.time.LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
         Book book = new Book(bookId);
-        Comment comment = new Comment(localDateTime, user, description, book);
+        Comment comment = new Comment(timestamp, user, description, book);
         if (facadeService.addComment(comment)) {
             req.setAttribute("message_add_com", "ok");
         } else {
             req.setAttribute("message_add_com", "error");
         }
         getServletContext().getRequestDispatcher("").forward(req, resp);
-
-
     }
 }

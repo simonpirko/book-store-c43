@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet
-public class
-LogOutServlet extends HttpServlet {
+@WebServlet(name = "LogOutServlet", urlPatterns = "/logOut")
+public class LogOutServlet extends HttpServlet {
     private final FacadeService facade = new FacadeService();
 
     @Override

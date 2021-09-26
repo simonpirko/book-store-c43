@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet
+@WebServlet(name = "UserBookServlet", urlPatterns = "/userBooks")
 public class UserBookServlet extends HttpServlet   {
     private final FacadeService facadeService = new FacadeService();
 

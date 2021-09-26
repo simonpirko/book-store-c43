@@ -1,29 +1,29 @@
 package by.bookstore.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Comment {
     private long id;
-    private LocalDateTime time;
+    private Timestamp time;
     private User user;
     private String description;
     private Book book;
 
-    public Comment(LocalDateTime time, User user, String description, Book book) {
+    public Comment(Timestamp time, User user, String description, Book book) {
         this.time = time;
         this.user = user;
         this.description = description;
         this.book = book;
     }
 
-    public Comment(long id, LocalDateTime time, String description) {
+    public Comment(long id, Timestamp time, String description) {
         this.id = id;
         this.time = time;
         this.description = description;
     }
 
-    public Comment(long id, LocalDateTime time, User user, String description, Book book) {
+    public Comment(long id, Timestamp time, User user, String description, Book book) {
         this.id = id;
         this.time = time;
         this.user = user;
@@ -42,11 +42,11 @@ public class Comment {
         this.id = id;
     }
 
-    public LocalDateTime getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 
