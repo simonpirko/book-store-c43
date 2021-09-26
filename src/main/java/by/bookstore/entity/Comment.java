@@ -31,6 +31,12 @@ public class Comment {
         this.book = book;
     }
 
+    public Comment(User user, String description, Book book) {
+        this.user = user;
+        this.description = description;
+        this.book = book;
+    }
+
     public Comment() {
     }
 

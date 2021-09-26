@@ -17,7 +17,7 @@
     <div class="row justify-content-center" >
         <div class="col-sm-3" style="padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px" >
             <legend style="text-align: center; padding-bottom: 20px">Please Login</legend>
-            <form action="/authorization" method="post">
+            <form action="/auth" method="post">
                 <div class="mb-3">
                     <input type="text" name="login" class="form-control"  aria-describedby="emailHelp" required placeholder="Login">
                 </div>
