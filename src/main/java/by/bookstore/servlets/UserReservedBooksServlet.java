@@ -21,7 +21,7 @@ public class UserReservedBooksServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         List<Book> reservedBooks = facade.getReservedBooksById(user.getId());
         req.setAttribute("reservedBooks", reservedBooks);
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/bookBasket.jsp").forward(req, resp);
     }
 
     @Override
@@ -33,6 +33,6 @@ public class UserReservedBooksServlet extends HttpServlet {
             facade.confirmPurchase(user);
             req.setAttribute("message_purchase", "Items purchased successfully!");
         }
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/bookBasket.jsp").forward(req, resp);
     }
 }

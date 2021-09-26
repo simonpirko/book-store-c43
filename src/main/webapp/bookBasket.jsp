@@ -46,7 +46,18 @@
             </div>
         </c:forEach>
         <div class="row row-cols-auto">
-
+            <form action="/userReservedBooks" method="post">
+                <button class="btn btn-success btn-sm" type="submit" name="isBuy" value="true">
+                    Buy all
+                </button>
+            </form>
+        </div>
+        <div>
+            <c:if test="${requestScope.message_purchase != null}">
+                <div class="alert alert-warning" role="alert" >
+                    <p>${requestScope.message_purchase}</p>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>
