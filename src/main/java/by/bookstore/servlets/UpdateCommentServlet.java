@@ -18,7 +18,7 @@ public class UpdateCommentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        req.getServletContext().getRequestDispatcher("").forward(req, resp);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class UpdateCommentServlet extends HttpServlet {
         if(facadeService.updateComment(new Comment(user, message, new Book(bookId)))){
             req.setAttribute("message_upd_comm", "Comment changed!");
         }else {
-            req.setAttribute("message", "Operation failed!");
+            req.setAttribute("message`  ", "Operation failed!");
         }
         req.getServletContext().getRequestDispatcher("").forward(req, resp);
     }
