@@ -5,7 +5,7 @@
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
-<div class="container"><img src="/images/star.png" alt="" height="300" class="rounded mx-auto d-block">
+<div class="container"><img src="/images/ratingstar.png" alt="" height="300" class="rounded mx-auto d-block">
     <div class="row justify-content-center">
         <div class="col-sm-4" style="text-align: center; padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px">
             <form action="/updRatingBook" method="post">
