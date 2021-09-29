@@ -14,6 +14,7 @@ public class JDBCUserDaoImpl implements UserDao {
     private static final String BY_LOGIN = "WHERE login = ? ";
     private static final String UPDATE_PASSWORD = " UPDATE users SET password = ? ";
     private static final String UPDATE_NAME = " UPDATE users SET name = ? ";
+
     @Override
     public boolean save(User user) {
         try (Connection connection = MySQLConnection.getConnection()) {
@@ -23,7 +24,8 @@ public class JDBCUserDaoImpl implements UserDao {
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.setString(4, user.getPicture());
             preparedStatement.setString(5, user.getTypeOfUser().name());
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -37,7 +39,7 @@ public class JDBCUserDaoImpl implements UserDao {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_USERS + BY_LOGIN);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
-            getUserFromResult(userByLogin, resultSet);
+            userByLogin = getUserFromResult(resultSet);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -50,7 +52,8 @@ public class JDBCUserDaoImpl implements UserDao {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_NAME + BY_ID);
             preparedStatement.setString(1, newName);
             preparedStatement.setLong(2, user.getId());
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -63,7 +66,8 @@ public class JDBCUserDaoImpl implements UserDao {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PASSWORD + BY_ID);
             preparedStatement.setString(1, newPassword);
             preparedStatement.setLong(2, user.getId());
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -91,16 +95,15 @@ public class JDBCUserDaoImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(GET_USERS + BY_LOGIN);
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            }
+            return resultSet.next();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
         return false;
     }
 
-    private  void getUserFromResult(User userByLogin, ResultSet resultSet) throws SQLException{
+    private  User getUserFromResult(ResultSet resultSet) throws SQLException{
+        User userByLogin = new User();
         while (resultSet.next()) {
             userByLogin = new User(
                     resultSet.getLong("id"),
@@ -111,6 +114,7 @@ public class JDBCUserDaoImpl implements UserDao {
                     TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
             );
         }
+        return userByLogin;
     }
 }
 

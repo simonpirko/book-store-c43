@@ -20,7 +20,7 @@ public class AddCommentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("").forward(req, resp);
+        getServletContext().getRequestDispatcher("/commentAdd.jsp").forward(req, resp);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class AddCommentServlet extends HttpServlet {
         } else {
             req.setAttribute("message_add_com", "error");
         }
-        getServletContext().getRequestDispatcher("").forward(req, resp);
+        getServletContext().getRequestDispatcher("/commentAdd.jsp").forward(req, resp);
     }
 }

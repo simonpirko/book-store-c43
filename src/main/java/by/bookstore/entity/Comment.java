@@ -37,6 +37,13 @@ public class Comment {
         this.book = book;
     }
 
+    public Comment(long id, User user, String description, Book book) {
+        this.id = id;
+        this.user = user;
+        this.description = description;
+        this.book = book;
+    }
+
     public Comment() {
     }
 

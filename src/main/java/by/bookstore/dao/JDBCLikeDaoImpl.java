@@ -22,7 +22,8 @@ public class JDBCLikeDaoImpl implements LikeDAO {
             PreparedStatement statement = connection.prepareStatement(SAVE);
             statement.setLong(1, like.getUser().getId());
             statement.setLong(2, like.getBook().getId());
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -50,14 +51,15 @@ public class JDBCLikeDaoImpl implements LikeDAO {
             PreparedStatement statement = connection.prepareStatement(GET_LIKES_BY_BOOK);
             statement.setLong(1, idBook);
             ResultSet resultSet = statement.executeQuery();
-            getLikesFromResult(likeList, resultSet);
+            likeList = getLikesFromResult(resultSet);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return likeList;
     }
 
-    private void getLikesFromResult(List<Like> likeList, ResultSet resultSet) throws SQLException {
+    private List<Like> getLikesFromResult(ResultSet resultSet) throws SQLException {
+        List<Like> likeList = new ArrayList<>();
         while (resultSet.next()) {
             likeList.add(new Like(
                     resultSet.getLong("like_id"),
@@ -73,5 +75,6 @@ public class JDBCLikeDaoImpl implements LikeDAO {
                             resultSet.getString("author")
                     )));
         }
+        return likeList;
     }
 }

@@ -35,10 +35,14 @@
                                    type="button">Comment</a>
                             </div>
                             <div type="btn">
-                                <a href="#" class="btn  btn-sm disabled" type="button"
+                                <a href="/addLike?book_id=${book.id}" class="btn  btn-sm disabled" type="button"
                                    style="border-radius: 100px; background-color: #b6d9b6">
-                                        ${book.likes}
+                                        ${book.likes.size()}
                                 </a>
+                            </div>
+                            <div type="btn">
+                                <a href="/updRatingBook?bookId=${book.id}" class="btn btn-outline-success btn-sm"
+                                   type="button">Rating: ${book.rating}</a>
                             </div>
                         </div>
                     </div>

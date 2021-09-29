@@ -29,5 +29,6 @@ public class DeleteBookServlet extends HttpServlet {
         }else{
             req.setAttribute("message_remove_Book", "Operation failed!");
         }
+        req.getServletContext().getRequestDispatcher("/bookStore.jsp").forward(req, resp);
     }
 }

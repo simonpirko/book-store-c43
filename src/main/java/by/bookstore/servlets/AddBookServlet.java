@@ -23,7 +23,6 @@ public class AddBookServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/saveBook.jsp").forward(req, resp);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String name = req.getParameter("name");

@@ -38,7 +38,8 @@ public class JDBCBookDAOImpl implements BookDAO {
             statement.setDouble(4, book.getPrice());
             statement.setBoolean(5, book.isReserved());
             statement.setLong(6, book.getUser().getId());
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -50,13 +51,13 @@ public class JDBCBookDAOImpl implements BookDAO {
         try (Connection connection = MySQLConnection.getConnection()){
             PreparedStatement statement = connection.prepareStatement(DELETE + BY_ID );
             statement.setLong(1, id);
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-
 
     @Override
     public boolean updateBook(Book book) {
@@ -69,13 +70,13 @@ public class JDBCBookDAOImpl implements BookDAO {
             statement.setBoolean(5, book.isReserved());
             statement.setLong(6, book.getUser().getId());
             statement.setLong(7, book.getId());
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-
 
     @Override
     public boolean updateBookReservedStatus(long bookId, boolean flag) {
@@ -83,13 +84,13 @@ public class JDBCBookDAOImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK_RESERVED + BY_ID);
             statement.setBoolean(1, flag);
             statement.setLong(2, bookId);
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-
 
     @Override
     public boolean updateBookOwner(long bookId, long idUser) {
@@ -97,13 +98,13 @@ public class JDBCBookDAOImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK_OWNER + BY_ID);
             statement.setLong(1, idUser);
             statement.setLong(2, bookId);
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-
 
     @Override
     public boolean isExistById(long id) {
@@ -117,7 +118,6 @@ public class JDBCBookDAOImpl implements BookDAO {
         }
         return false;
     }
-
 
     @Override
     public boolean isExistByNameAuthor(String name, String author) {
@@ -133,7 +133,6 @@ public class JDBCBookDAOImpl implements BookDAO {
         return false;
     }
 
-
     @Override
     public Book getBookById(long id) {
         Book book = new Book();
@@ -141,14 +140,12 @@ public class JDBCBookDAOImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(GET_BOOK + BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            getBookFromResult(resultSet, book);
+            book = getBookFromResult(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return book;
     }
-
-
 
     @Override
     public Book getBookByNameAuthor(String name, String author) {
@@ -158,7 +155,7 @@ public class JDBCBookDAOImpl implements BookDAO {
             statement.setString(1, name);
             statement.setString(2, author);
             ResultSet resultSet = statement.executeQuery();
-            getBookFromResult(resultSet, book);
+            book =  getBookFromResult(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -172,7 +169,7 @@ public class JDBCBookDAOImpl implements BookDAO {
         try (Connection connection = MySQLConnection.getConnection()){
             PreparedStatement statement = connection.prepareStatement(GET_BOOK);
             ResultSet resultSet = statement.executeQuery();
-            getBooksFromResult(books, resultSet);
+            books = getBooksFromResult(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -188,7 +185,7 @@ public class JDBCBookDAOImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(GET_BOOKS_BY_USER);
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            getBooksFromResult(books, resultSet);
+            books = getBooksFromResult(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -203,7 +200,7 @@ public class JDBCBookDAOImpl implements BookDAO {
             statement.setBoolean(1, flag);
             statement.setLong(2, userId);
             ResultSet resultSet = statement.executeQuery();
-            getBooksFromResult(books, resultSet);
+            books = getBooksFromResult(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -216,15 +213,17 @@ public class JDBCBookDAOImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(UPDATE_RATING + BY_ID);
             statement.setDouble(1, rating);
             statement.setLong(2, id);
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    private void getBookFromResult(ResultSet resultSet, Book book) throws SQLException {
-        while (resultSet.next()) {
+    private Book getBookFromResult(ResultSet resultSet) throws SQLException {
+        Book book = new Book();
+        if (resultSet.next()) {
             book = new Book(
                     resultSet.getLong("id"),
                     resultSet.getString("name"),
@@ -238,9 +237,11 @@ public class JDBCBookDAOImpl implements BookDAO {
                             TypeOfUser.valueOf(resultSet.getString("typeOfUser")))
             );
         }
+        return book;
     }
 
-    private void getBooksFromResult(List<Book> books, ResultSet resultSet) throws SQLException {
+    private List<Book> getBooksFromResult(ResultSet resultSet) throws SQLException {
+        List<Book> books = new ArrayList<>();
         while(resultSet.next()) {
             books.add(new Book(
                     resultSet.getLong("id"),
@@ -255,5 +256,6 @@ public class JDBCBookDAOImpl implements BookDAO {
                             TypeOfUser.valueOf(resultSet.getString("typeOfUser")))
             ));
         }
+        return books;
     }
 }

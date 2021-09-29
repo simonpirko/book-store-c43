@@ -31,34 +31,42 @@
                     <div class="card-footer text-muted">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                             <div type="btn">
-                                <a href="/bookComm?bookId=${book.id}" class="btn btn-outline-success btn-sm"
-                                   type="button">Comment</a>
+                                <a href="#" class="btn btn-outline-success btn-sm"
+                                   type="button">Comment: ${book.comments.size()}</a>
                             </div>
                             <div type="btn">
                                 <a href="#" class="btn  btn-sm disabled" type="button"
                                    style="border-radius: 100px; background-color: #b6d9b6">
-                                        ${book.likes}
+                                        ${book.likes.size()}
                                 </a>
+                            </div>
+                            <div type="btn">
+                                <a href="/updRatingBook?bookId=${book.id}" class="btn btn-outline-success btn-sm"
+                                   type="button">Rating: ${book.rating}</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </c:forEach>
-        <div class="row row-cols-auto">
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-1">
             <form action="/userReservedBooks" method="post">
                 <button class="btn btn-success btn-sm" type="submit" name="isBuy" value="true">
                     Buy all
                 </button>
             </form>
         </div>
-        <div>
-            <c:if test="${requestScope.message_purchase != null}">
-                <div class="alert alert-warning" role="alert" >
+    </div>
+    <div class="row justify-content-center">
+        <c:if test="${requestScope.message_purchase != null}">
+            <div class="col-sm-4">
+                <div class="alert alert-warning m-3" role="alert">
                     <p>${requestScope.message_purchase}</p>
                 </div>
-            </c:if>
-        </div>
+            </div>
+        </c:if>
     </div>
 </div>
 </body>
