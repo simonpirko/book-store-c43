@@ -19,7 +19,7 @@ public class UpdateBookInfoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         idToUpdate = Long.parseLong(req.getParameter("idBook"));
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/updateBook.jsp").forward(req, resp);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class UpdateBookInfoServlet extends HttpServlet {
         }else{
             req.setAttribute("message_upd_book", "Operation failed!");
         }
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/updateBook.jsp").forward(req, resp);
     }
 }
