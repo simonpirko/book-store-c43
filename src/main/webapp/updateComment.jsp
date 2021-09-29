@@ -19,9 +19,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
-            <form action="/updComm" method="post"></form>
-
-
+            <form action="/updComm" method="post">
             <div class="form-floating">
                 <textarea class="form-control" placeholder="description" name="description"
                           id="floatingTextarea"></textarea>
@@ -30,10 +28,9 @@
                     <button type="submit" class="btn btn-success" style="">Update comment</button>
                 </div>
             </div>
-
+            </form>
         </div>
     </div>
 </div>
-
 </body>
 </html>

@@ -28,10 +28,10 @@
                         <img src="${sessionScope.user.picture}" class="card-img-top">
                     </c:if>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><b>name:</b> ${sessionScope.user.name} <a style="float:right " href="/updateName" class="card-link"><img style="height: 20px; width: 20px" src="/images/edit.jpg"></a></li>
+                        <li class="list-group-item"><b>name:</b> ${sessionScope.user.name} <a style="float:right " href="/updateNameUser" class="card-link"><img style="height: 20px; width: 20px" src="/images/edit.jpg"></a></li>
                         <li class="list-group-item"><b>login:</b> ${sessionScope.user.login}</li>
-                        <li class="list-group-item"><b>type:</b> ${sessionScope.user.typeOfUser}</li>
-                        <li class="list-group-item"><b>password:</b> *********<a style="float:right " href="/updatePassword" class="card-link"><img style="height: 20px; width: 20px" src="/images/edit.jpg"></a></li>
+                        <li class="list-group-item"><b>type:</b> ${sessionScope.user.typeOfUser.toString()}</li>
+                        <li class="list-group-item"><b>password:</b> *********<a style="float:right " href="/updatePasswordUser" class="card-link"><img style="height: 20px; width: 20px" src="/images/edit.jpg"></a></li>
                     </ul>
                 </div>
             </form>

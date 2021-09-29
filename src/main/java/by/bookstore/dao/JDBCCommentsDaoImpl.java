@@ -33,7 +33,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             statement.setLong(2, comment.getUser().getId());
             statement.setString(3, comment.getDescription());
             statement.setLong(4, comment.getBook().getId());
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -45,7 +46,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
         try (Connection connection = MySQLConnection.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(DELETE + BY_ID);
             statement.setLong(1, commentId);
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -58,7 +60,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             PreparedStatement statement = connection.prepareStatement(UPDATE + BY_ID);
             statement.setString(1, comment.getDescription());
             statement.setLong(2, comment.getId());
-            return statement.execute();
+            statement.execute();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -72,7 +75,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_ID);
             statement.setLong(1, commentId);
             ResultSet resultSet = statement.executeQuery();
-            getCommentFromResult(comment, resultSet);
+            comment = getCommentFromResult(resultSet);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -86,14 +89,12 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_BOOK_ID);
             statement.setLong(1, bookId);
             ResultSet resultSet = statement.executeQuery();
-            getCommentsFromResult(commentList, resultSet);
+            commentList = getCommentsFromResult(resultSet);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return commentList;
     }
-
-
 
     @Override
     public List<Comment> getAllByUserId(long userId) {
@@ -102,13 +103,12 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_USER_ID);
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            getCommentsFromResult(commentList, resultSet);
+            commentList = getCommentsFromResult(resultSet);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return commentList;
     }
-
 
     @Override
     public List<Comment> getAllByUserIdAndBookId(long userId, long bookId) {
@@ -118,7 +118,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                 statement.setLong(1, userId);
                 statement.setLong(2, bookId);
                 ResultSet resultSet = statement.executeQuery();
-                getCommentsFromResult(commentList, resultSet);
+                commentList = getCommentsFromResult(resultSet);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -160,7 +160,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_COMMENTS + BY_BOOK_ID);
             preparedStatement.setLong(1, bookId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            getCommentsFromResult(comments, resultSet);
+            comments = getCommentsFromResult(resultSet);
             comments.sort(Comparator.comparing(Comment::getTime));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -168,7 +168,8 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
         return comments;
     }
 
-    private void getCommentFromResult(Comment comment, ResultSet resultSet) throws SQLException{
+    private Comment getCommentFromResult(ResultSet resultSet) throws SQLException{
+        Comment comment = new Comment();
         if (resultSet.next()) {
             comment = new Comment(
                     resultSet.getLong("comments_id"),
@@ -186,9 +187,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                             resultSet.getString("author")
                     ));
         }
+        return comment;
     }
 
-    private void getCommentsFromResult(List<Comment> commentList, ResultSet resultSet) throws SQLException {
+    private List<Comment> getCommentsFromResult(ResultSet resultSet) throws SQLException {
+        List<Comment> commentList = new ArrayList<>();
         while (resultSet.next()) {
             commentList.add(new Comment(
                     resultSet.getLong("comments_id"),
@@ -206,5 +209,6 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                             resultSet.getString("author")
                     )));
         }
+        return commentList;
     }
 }

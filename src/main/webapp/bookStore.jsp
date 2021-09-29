@@ -53,18 +53,20 @@
                             <div type="btn">
                                 <a href="/bookComm?bookId=${book.id}" class="btn btn-outline-success btn-sm" type="button">Comment</a>
                             </div>
+                            <p>${book.comments.size()}</p>
                             <div type="btn" style="padding-left: 40px">
-                                <form action="/bookStore" method="post">
+                                <form action="/addLike" method="post">
                                     <button class="btn btn-outline-success btn-sm" type="submit" name="bookLike"
                                             value="${book.id}">Like
                                     </button>
                                 </form>
                             </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                    ${book.likes.size()}
+                            </div>
                             <div type="btn">
-                                <a href="#" class="btn  btn-sm disabled" type="button"
-                                   style="border-radius: 100px; background-color: #b6d9b6">
-                                        ${book.likes}
-                                </a>
+                                <a href="/updRatingBook?bookId=${book.id}" class="btn btn-outline-success btn-sm"
+                                   type="button">Rating: ${book.rating}</a>
                             </div>
                         </div>
                     </div>

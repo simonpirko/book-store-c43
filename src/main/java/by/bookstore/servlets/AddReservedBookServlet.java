@@ -29,6 +29,6 @@ public class AddReservedBookServlet extends HttpServlet {
         }else{
             req.setAttribute("message_add_in_basket", "Operation failed!");
         }
-        req.getServletContext().getRequestDispatcher("").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/bookStore.jsp").forward(req, resp);
     }
 }

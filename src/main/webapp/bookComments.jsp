@@ -49,10 +49,14 @@
                         </form>
                     </div>
                     <div type="btn">
-                        <a href="#" class="btn  btn-sm disabled" type="button"
+                        <a href="/addLike?book_id=${requestScope.book.id}" class="btn  btn-sm disabled" type="button"
                            style="border-radius: 100px; background-color: #b6d9b6">
-                            ${requestScope.book.likes}
+                            ${requestScope.book.likes.size()}
                         </a>
+                    </div>
+                    <div type="btn">
+                        <a href="/updRatingBook?bookId=${requestScope.book.id}" class="btn btn-outline-success btn-sm"
+                           type="button">Rating: ${requestScope.book.rating}</a>
                     </div>
                 </div>
             </div>
@@ -66,6 +70,7 @@
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">${comment.user.name}</div>
                                 ${comment.description}
+                                ${comment.time}
                         </div>
                         <c:if test="${sessionScope.user.login.equals(comment.user.login)}">
                             <span class="badge bg-primary rounded-pill"><a href="//updComm?bookId=${book.id}" class="btn btn-outline-success btn-sm" type="button">Update</a></span>
@@ -76,7 +81,6 @@
             </c:forEach>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

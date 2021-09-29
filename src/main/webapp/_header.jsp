@@ -55,15 +55,16 @@
                                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                       <li><a class="dropdown-item" href="/account">Account</a></li>
-                                      <li><a class="dropdown-item" href="/addBook">Add book</a></li>
+                                      <li><a class="dropdown-item" href="/addBook">Add new book</a></li>
+                                      <li><a class="dropdown-item" href="/userBooks">Your books</a></li>
                                       <li><hr class="dropdown-divider"></li>
-                                      <li><a class="dropdown-item" href="/logout">Sign-out</a></li>
+                                      <li><a class="dropdown-item" href="/logOut">Sign-out</a></li>
                                   </ul>
                               </li>
-                              </c:if>
                               <a class="pull-right navbar-text"  style="padding-left: 30px" href="/userReservedBooks">
                                   <img src="/images/basket_2.png" width="30px" height="30px">
                               </a>
+                              </c:if>
                           </div>
                       </li>
                 </ul>

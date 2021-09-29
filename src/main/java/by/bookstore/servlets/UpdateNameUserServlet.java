@@ -26,9 +26,10 @@ public class UpdateNameUserServlet extends HttpServlet {
         String newName = req.getParameter("newName");
 
         if (facadeService.changeName(user, newName)){
-            req.setAttribute("message_upd_n", "Successfully update name");
+            req.setAttribute("message_upd_n", "Successfully update name!");
+            user.setName(newName);
         }else {
-            req.setAttribute("message_upd_n", "Unsuccessfully update name");
+            req.setAttribute("message_upd_n", "The new name cannot be the same as the old one!");
         }
         req.getServletContext().getRequestDispatcher("/changeName.jsp").forward(req, resp);
 

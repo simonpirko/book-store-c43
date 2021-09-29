@@ -25,10 +25,12 @@ public class UpdatePasswordUserServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         String newPassword = req.getParameter("newPassword");
         String oldPassword = req.getParameter("oldPassword");
+
         if (facadeService.changePassword(user, newPassword, oldPassword)){
             req.setAttribute("message_upd_p", "Successfully update password");
+            user.setPassword(newPassword);
         }else {
-            req.setAttribute("message_upd_p", "Unsuccessfully update password");
+            req.setAttribute("message_upd_p", "You entered the wrong old password or new password is the same as the old one!");
         }
         req.getServletContext().getRequestDispatcher("/changePassword.jsp").forward(req, resp);
     }

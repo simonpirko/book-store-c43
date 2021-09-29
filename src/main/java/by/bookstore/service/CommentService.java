@@ -48,7 +48,7 @@ public class CommentService {
     }
 
     public boolean update(Comment comment){
-        return commentsDao.isExistByInfo(comment) && commentsDao.update(comment);
+        return commentsDao.isExistById(comment.getId()) && commentsDao.update(comment);
     }
 
     public List<Comment> getAllByBookIdSortByDate(long bookId){

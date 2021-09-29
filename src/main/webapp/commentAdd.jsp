@@ -19,17 +19,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
-            <form action="/addComment" method="post"></form>
-
-
-            <div class="form-floating">
+            <form action="/addComment" method="post">
+                <div class="form-floating">
                 <textarea class="form-control" placeholder="description" name="description"
                           id="floatingTextarea"></textarea>
-                <label for="floatingTextarea">Comments</label>
-                <div style="text-align:center">
-                    <button type="submit" class="btn btn-success" style="">Add comment</button>
+                    <label for="floatingTextarea">Comments</label>
+                    <div style="text-align:center">
+                        <button type="submit" class="btn btn-success" style="">Add comment</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
