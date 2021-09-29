@@ -1,5 +1,6 @@
 package by.bookstore.servlets;
 
+import by.bookstore.entity.Book;
 import by.bookstore.entity.Comment;
 import by.bookstore.service.FacadeService;
 
@@ -18,9 +19,12 @@ public class BookCommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long bookId = Long.parseLong(req.getParameter("bookId"));
-        List<Comment> list = facadeService.getCommentByBookBySorted(bookId);
-        req.setAttribute("listCommentsByBookId", list);
-        getServletContext().getRequestDispatcher("").forward(req, resp);
-    }
 
+        List<Comment> list = facadeService.getCommentByBookBySorted(bookId);
+        Book book = facadeService.getBooks().get(facadeService.getBooks().indexOf(new Book(bookId)));
+
+        req.setAttribute("book", book);
+        req.setAttribute("listCommentsByBookId", list);
+        getServletContext().getRequestDispatcher("/bookComments.jsp").forward(req, resp);
+    }
 }
