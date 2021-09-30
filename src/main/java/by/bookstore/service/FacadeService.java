@@ -1,13 +1,11 @@
 package by.bookstore.service;
 
-import by.bookstore.dao.JDBCBookDAOImpl;
 import by.bookstore.entity.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class FacadeService {
-    private final BookBasket bookBasket = new BookBasket(new JDBCBookDAOImpl());
 
     public boolean registration(User user) {
         return Dependencies.userService.saveUser(user);
@@ -44,8 +42,8 @@ public class FacadeService {
         return books;
     }
 
-    public List<Book> getReservedBooksById(long idUser) {
-        List<Book> books = Dependencies.bookService.getReservedBookByUser(idUser);
+    public List<Book> getReservedBooks(BookBasket bookBasket) {
+        List<Book> books = bookBasket.getReservedBooks();
         for (Book book : books) {
             book.setLikes(Dependencies.likeService.getLikesByBook(book.getId()));
             book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId()));
@@ -117,20 +115,15 @@ public class FacadeService {
         return Dependencies.likeService.getLikesByBook(idBook);
     }
 
-    public boolean addBookInBasket(long idBook, User user) {
-        Optional<Book> optionalBook = Dependencies.bookService.getBookById(idBook);
-        if (optionalBook.isPresent()) {
-            return bookBasket.saveInBasket(optionalBook.get(), user);
-        } else{
-            return false;
-        }
+    public boolean addBookInBasket(long idBook, BookBasket bookBasket) {
+        return bookBasket.saveInBasket(idBook);
     }
 
-    public void confirmPurchase(User user) {
+    public void confirmPurchase(User user, BookBasket bookBasket) {
         bookBasket.setStatusOwnerAfterPurchase(user);
     }
 
-    public void resetReservedStatusAfterLogOut() {
-        bookBasket.setReservedStatusAfterLogOut();
+    public void resetReservedStatusBookAfterLogOut(BookBasket bookBasket) {
+        bookBasket.resetReservedStatusAfterLogOutOrPurchase();
     }
 }

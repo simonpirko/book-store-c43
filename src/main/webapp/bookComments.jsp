@@ -23,7 +23,6 @@
                     the card's content.</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" style="background-color:#fafcfa ">Rating: ${requestScope.book.rating} </li>
                 <li class="list-group-item" style="background-color:#fafcfa ">Price: ${requestScope.book.price} </li>
             </ul>
             <c:if test="${requestScope.book.reserved != true}">

@@ -223,7 +223,7 @@ public class JDBCBookDAOImpl implements BookDAO {
 
     private Book getBookFromResult(ResultSet resultSet) throws SQLException {
         Book book = new Book();
-        if (resultSet.next()) {
+        while (resultSet.next()) {
             book = new Book(
                     resultSet.getLong("id"),
                     resultSet.getString("book_name"),

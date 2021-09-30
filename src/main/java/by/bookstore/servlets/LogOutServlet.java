@@ -1,5 +1,6 @@
 package by.bookstore.servlets;
 
+import by.bookstore.service.BookBasket;
 import by.bookstore.service.FacadeService;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,8 @@ public class LogOutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        facade.resetReservedStatusAfterLogOut();
+        BookBasket bookBasket = (BookBasket) req.getSession().getAttribute("basket");
+        facade.resetReservedStatusBookAfterLogOut(bookBasket);
         req.getSession().invalidate();
         resp.sendRedirect("/main");
     }

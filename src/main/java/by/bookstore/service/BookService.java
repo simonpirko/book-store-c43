@@ -20,7 +20,6 @@ public class BookService {
         }else return Optional.empty();
     }
 
-
     public boolean saveBookById(Book book){
         if(bookDAO.isExistById(book.getId())){
             return bookDAO.saveBook(book);

@@ -1,6 +1,8 @@
 package by.bookstore.servlets;
 
+import by.bookstore.dao.JDBCBookDAOImpl;
 import by.bookstore.entity.User;
+import by.bookstore.service.BookBasket;
 import by.bookstore.service.FacadeService;
 
 import javax.servlet.ServletException;
@@ -28,6 +30,7 @@ public class AuthorizationServlet extends HttpServlet {
         Optional<User> optionalUser = facadeService.authorization(new User(login, password));
         if (optionalUser.isPresent()) {
             req.getSession().setAttribute("user", optionalUser.get());
+            req.getSession().setAttribute("basket", new BookBasket(new JDBCBookDAOImpl()));
             req.setAttribute("message_SignIn", "Authorization passed successfully");
         } else {
             req.setAttribute("message_SignIn", "Its user hasn't registered yet");

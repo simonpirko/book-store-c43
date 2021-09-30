@@ -1,6 +1,7 @@
 package by.bookstore.servlets;
 
 import by.bookstore.entity.User;
+import by.bookstore.service.BookBasket;
 import by.bookstore.service.FacadeService;
 
 import javax.servlet.ServletException;
@@ -22,13 +23,12 @@ public class AddReservedBookServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long bookId = Long.parseLong(req.getParameter("book_id"));
-        User user = (User) req.getSession().getAttribute("user");
-
-        if(facade.addBookInBasket(bookId, user)){
+        BookBasket bookBasket = (BookBasket) req.getSession().getAttribute("basket");
+        if(facade.addBookInBasket(bookId, bookBasket)){
             req.setAttribute("message_add_in_basket", "Book added to basket!");
         }else{
             req.setAttribute("message_add_in_basket", "Operation failed!");
         }
-        req.getServletContext().getRequestDispatcher("/bookStore.jsp").forward(req, resp);
+        resp.sendRedirect("/bookStore");
     }
 }

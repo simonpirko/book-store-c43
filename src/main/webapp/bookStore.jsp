@@ -35,7 +35,6 @@
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOiajxMowVRnj1Z33dbn8fIj63aibIIMuW9w&usqp=CAU">
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" style="background-color:#fafcfa ">Rating: ${book.rating} </li>
                         <li class="list-group-item" style="background-color:#fafcfa ">Price: ${book.price} </li>
                         <li class="list-group-item" style="background-color:#fafcfa ">Vendor details: ${book.user.name} </li>
                     </ul>
