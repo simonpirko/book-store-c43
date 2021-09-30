@@ -1,12 +1,13 @@
 package by.bookstore.service;
 
+import by.bookstore.dao.JDBCBookDAOImpl;
 import by.bookstore.entity.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class FacadeService {
-
+    private final BookBasket bookBasket = new BookBasket(new JDBCBookDAOImpl());
 
     public boolean registration(User user) {
         return Dependencies.userService.saveUser(user);
@@ -119,15 +120,17 @@ public class FacadeService {
     public boolean addBookInBasket(long idBook, User user) {
         Optional<Book> optionalBook = Dependencies.bookService.getBookById(idBook);
         if (optionalBook.isPresent()) {
-            return Dependencies.bookBasket.saveInBasket(optionalBook.get(), user);
-        } else return false;
+            return bookBasket.saveInBasket(optionalBook.get(), user);
+        } else{
+            return false;
+        }
     }
 
     public void confirmPurchase(User user) {
-        Dependencies.bookBasket.setStatusOwnerAfterPurchase(user);
+        bookBasket.setStatusOwnerAfterPurchase(user);
     }
 
     public void resetReservedStatusAfterLogOut() {
-        Dependencies.bookBasket.setReservedStatusAfterLogOut();
+        bookBasket.setReservedStatusAfterLogOut();
     }
 }

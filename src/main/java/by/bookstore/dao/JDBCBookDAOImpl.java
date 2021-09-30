@@ -23,9 +23,12 @@ public class JDBCBookDAOImpl implements BookDAO {
     private static final String IS_EXIST_BY_ID = " SELECT b.id FROM books b ";
     private static final String BY_AUTHOR = " WHERE b.name = ? AND b.author = ?";
     private static final String IS_EXIST_BY_AUTHOR = " SELECT b.name, b.author FROM books b ";
-    private static final String GET_BOOK = " SELECT * FROM books b LEFT JOIN users u on u.id = b.user_id ";
-    private static final String GET_BOOKS_BY_USER = " SELECT * FROM books b WHERE b.user_id = ? ";
-    private static final String GET_RESERVED_BOOKS_BY_USER = " SELECT * FROM books b WHERE b.reserved = ? AND b.user_id = ? ";
+    private static final String GET_BOOK = " SELECT b.id, b.name AS book_name, b.author, b.rating, b.price, b.reserved, b.user_id, " +
+            " u.name, u.picture, u.typeOfUser FROM books b LEFT JOIN users u on u.id = b.user_id ";
+    private static final String GET_BOOKS_BY_USER = " SELECT b.id, b.name AS book_name, b.author, b.rating, b.price, b.reserved, b.user_id, " +
+            " u.name, u.picture, u.typeOfUser FROM books b LEFT JOIN users u on u.id = b.user_id WHERE b.user_id = ?";
+    private static final String GET_RESERVED_BOOKS_BY_USER = " SELECT b.id, b.name AS book_name, b.author, b.rating, b.price, b.reserved, b.user_id," +
+            " u.name, u.picture, u.typeOfUser FROM books b LEFT JOIN users u on u.id = b.user_id WHERE b.reserved = ? AND b.user_id = ? ";
     private static final String UPDATE_RATING = " UPDATE books b SET b.rating = ? ";
 
     @Override
@@ -162,7 +165,6 @@ public class JDBCBookDAOImpl implements BookDAO {
         return book;
     }
 
-
     @Override
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
@@ -175,8 +177,6 @@ public class JDBCBookDAOImpl implements BookDAO {
         }
         return books;
     }
-
-
 
     @Override
     public List<Book> getBooksByUser(long userId) {
@@ -226,7 +226,7 @@ public class JDBCBookDAOImpl implements BookDAO {
         if (resultSet.next()) {
             book = new Book(
                     resultSet.getLong("id"),
-                    resultSet.getString("name"),
+                    resultSet.getString("book_name"),
                     resultSet.getString("author"),
                     resultSet.getDouble("rating"),
                     resultSet.getDouble("price"),
@@ -245,7 +245,7 @@ public class JDBCBookDAOImpl implements BookDAO {
         while(resultSet.next()) {
             books.add(new Book(
                     resultSet.getLong("id"),
-                    resultSet.getString("name"),
+                    resultSet.getString("book_name"),
                     resultSet.getString("author"),
                     resultSet.getDouble("rating"),
                     resultSet.getDouble("price"),

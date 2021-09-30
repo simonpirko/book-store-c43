@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Add new book</title>
@@ -33,6 +34,15 @@
                     <button type="submit" class="btn btn-success" style="">Submit</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-4" style="padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px" >
+            <c:if test="${requestScope.message_add_book != null}">
+                <div class="alert alert-warning" role="alert" >
+                    <p>${requestScope.message_add_book}</p>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>
