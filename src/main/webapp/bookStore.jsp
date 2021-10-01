@@ -1,3 +1,4 @@
+<%@ page import="by.bookstore.entity.TypeOfUser" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -28,7 +29,7 @@
     <div class="row row-cols-auto">  <%-- Количество книг на ширину контейнера: auto или требуемое число --%>
         <c:forEach items="${requestScope.allBooks}" var="book">
             <div class="col">
-                <div class="card" style="width: 16rem; background-color: #fafcfa; border-radius:8px; margin-top: 20px">
+                <div class="card" style="width: 18rem; background-color: #fafcfa; border-radius:8px; margin-top: 20px">
                     <div class="card-body">
                         <h5 class="card-title">Name: ${book.name}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Author: ${book.author}</h6>
@@ -37,21 +38,29 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#fafcfa ">Price: ${book.price} </li>
                         <li class="list-group-item" style="background-color:#fafcfa ">Vendor details: ${book.user.name} </li>
-                    </ul>
-                    <c:if test="${book.reserved != true}">
-                        <div class="card-body">
-                            <form action="/addReservedBook" method="post">
-                                <button class="btn btn-success btn-sm" type="submit" name="book_id"
-                                        value="${book.id}">
+                        <c:if test="${book.reserved != true}">
+                            <li class="list-group-item">
+                             <form action="/addReservedBook" method="post">
+                                 <button class="btn btn-success btn-sm" type="submit" name="book_id" value="${book.id}">
                                     Buy
-                                </button>
-                            </form>
-                        </div>
-                    </c:if>
+                                 </button>
+                             </form>
+                            </li>
+                        </c:if>
+                        <c:if test="${sessionScope.user.typeOfUser == TypeOfUser.ADMIN }">
+                             <li  class="list-group-item" style="text-align:center">
+                             <form action="/deleteBook" method="post">
+                                  <button class="btn btn-danger btn-sm" type="submit" name="book_id" value="${book.id}">
+                                     Delete
+                                  </button>
+                             </form>
+                             </li>
+                        </c:if>
+                    </ul>
                     <c:if test="${book.reserved == true}">
-                    <div class="card-body">
-                        Reserved
-                    </div>
+                        <div class="card-body">
+                            Reserved
+                        </div>
                     </c:if>
                     <div class="card-footer text-muted">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
