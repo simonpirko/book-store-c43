@@ -78,15 +78,13 @@
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">${comment.user.name}</div>
                                 ${comment.description}
-                                ${comment.time}
+                            <div>
+                                    ${comment.time}
+                            </div>
                         </div>
-                        <c:if test="${sessionScope.user.login.equals(comment.user.login)}">
-                            <span class="badge bg-primary rounded-pill"><a href="/updComm?bookId=${book.id}"
-                                                                           class="btn btn-outline-success btn-sm"
-                                                                           type="button">Update</a></span>
-                            <span class="badge bg-primary rounded-pill"><a href="/deleteComm?idComment=${comment.id}"
-                                                                           class="btn btn-outline-success btn-sm"
-                                                                           type="button">Delete</a></span>
+                        <c:if test="${sessionScope.user.id.equals(comment.user.id)}">
+                            <a href="/updComm?bookId=${book.id}&idComment=${comment.id}" class="btn btn-outline-success btn-sm rounded me-2" type="button">Update</a>
+                            <a href="/deleteComm?idComment=${comment.id}" class="btn btn-outline-success btn-sm rounded me-2" type="button">Delete</a>
                         </c:if>
                     </li>
                 </ol>
