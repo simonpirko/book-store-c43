@@ -22,7 +22,7 @@ public class CommentService {
     }
 
     public boolean save(Comment comment) {
-        return commentsDao.isExistByInfo(comment) && commentsDao.save(comment);
+        return !commentsDao.isExistByInfo(comment) && commentsDao.save(comment);
     }
 
     public boolean delete(long commentId){
