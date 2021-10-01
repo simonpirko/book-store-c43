@@ -32,6 +32,14 @@
         </div>
     </div>
 </div>
-
+<div class="row justify-content-center">
+    <div class="col-sm-3 text-center m-3">
+        <c:if test="${requestScope.message_add_com != null}">
+            <div class="alert alert-warning" role="alert">
+                <p>${requestScope.message_add_com}</p>
+            </div>
+        </c:if>
+    </div>
+</div>
 </body>
 </html>

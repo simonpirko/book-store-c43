@@ -17,7 +17,7 @@ public class UserBookServlet extends HttpServlet   {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
-        req.setAttribute("userBooks", facadeService.getBooksById(user.getId()));
+        req.setAttribute("userBooks", facadeService.getBooksByUserId(user.getId()));
         req.getServletContext().getRequestDispatcher("/userBooks.jsp").forward(req, resp);
     }
 }

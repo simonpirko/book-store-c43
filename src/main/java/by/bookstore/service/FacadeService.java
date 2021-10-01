@@ -33,7 +33,7 @@ public class FacadeService {
         } else return false;
     }
 
-    public List<Book> getBooksById(long idUser) {
+    public List<Book> getBooksByUserId(long idUser) {
         List<Book> books = Dependencies.bookService.getBooksByUser(idUser);
         for (Book book : books) {
             book.setLikes(Dependencies.likeService.getLikesByBook(book.getId()));
@@ -125,5 +125,16 @@ public class FacadeService {
 
     public void resetReservedStatusBookAfterLogOut(BookBasket bookBasket) {
         bookBasket.resetReservedStatusAfterLogOutOrPurchase();
+    }
+
+    public Book getBookById(long bookId){
+        Optional<Book> bookById = Dependencies.bookService.getBookById(bookId);
+        if(bookById.isPresent()){
+            Book book = bookById.get();
+            book.setComments(Dependencies.commentService.getAllByBookId(bookId));
+            book.setLikes(Dependencies.likeService.getLikesByBook(bookId));
+            return book;
+        }
+        return new Book();
     }
 }

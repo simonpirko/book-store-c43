@@ -21,7 +21,7 @@ public class BookCommentServlet extends HttpServlet {
         long bookId = Long.parseLong(req.getParameter("bookId"));
 
         List<Comment> list = facadeService.getCommentByBookBySorted(bookId);
-        Book book = facadeService.getBooks().get(facadeService.getBooks().indexOf(new Book(bookId)));
+        Book book = facadeService.getBookById(bookId);
 
         req.setAttribute("book", book);
         req.setAttribute("listCommentsByBookId", list);
