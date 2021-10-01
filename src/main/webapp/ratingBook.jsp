@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>RatingBook</title>
@@ -37,13 +38,15 @@
             </form>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-sm-4">
-            <div class="alert alert-warning" role="alert" >
-                <p>${requestScope.message_upd_rating}</p>
+    <c:if test="${requestScope.message_upd_rating != null}">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 m-3">
+                <div class="alert alert-warning" role="alert" >
+                    <p>${requestScope.message_upd_rating}</p>
+                </div>
             </div>
         </div>
-    </div>
+    </c:if>
 </div>
 </body>
 </html>

@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-sm-4" style="padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px" >
+        <div class="col-sm-4" >
             <c:if test="${requestScope.message_add_book != null}">
                 <div class="alert alert-warning" role="alert" >
                     <p>${requestScope.message_add_book}</p>

@@ -15,7 +15,7 @@
 <jsp:include page="_header.jsp"/>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="card" style="width: 16rem; background-color: #fafcfa; border-radius:8px; margin-top: 20px">
+        <div class="card m-3" style="width: 16rem; background-color: #fafcfa; border-radius:8px; margin-top: 20px">
             <div class="card-body">
                 <h5 class="card-title">Name: ${requestScope.book.name}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Author: ${requestScope.book.author}</h6>
@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-sm-8" style="padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px">
+        <div class="col-sm-8 m-3">
             <c:forEach var="comment" items="${requestScope.listCommentsByBookId}">
                 <ol class="list-group list-group-numbered">
                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -94,7 +94,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-sm-8">
+        <div class="col-sm-2 m-3">
             <a href="/addComment?bookId=${requestScope.book.id}" class="btn btn-success" type="button">Add
                 new comment</a>
         </div>

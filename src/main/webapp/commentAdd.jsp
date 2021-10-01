@@ -13,9 +13,7 @@
     <title>Add comment</title>
 </head>
 <body>
-/
 <jsp:include page="_header.jsp"/>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
@@ -33,13 +31,13 @@
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-sm-3 text-center m-3">
-        <c:if test="${requestScope.message_add_com != null}">
+    <c:if test="${requestScope.message_add_com != null}">
+        <div class="col-sm-3 text-center m-3">
             <div class="alert alert-warning" role="alert">
                 <p>${requestScope.message_add_com}</p>
             </div>
-        </c:if>
-    </div>
+        </div>
+    </c:if>
 </div>
 </body>
 </html>
