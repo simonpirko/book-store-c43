@@ -28,9 +28,13 @@ public class FacadeService {
     }
 
     public boolean deleteBook(User user, long idBook) {
-        if (user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
-            return Dependencies.bookService.deleteBookById(idBook);
-        } else return false;
+        Optional<Book> book = Dependencies.bookService.getBookById(idBook);
+        if (book.isPresent()) {
+            if (book.get().getUser().getId() == user.getId() || user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
+                return Dependencies.bookService.deleteBookById(idBook);
+            }
+        }
+        return false;
     }
 
     public List<Book> getBooksByUserId(long idUser) {
@@ -65,7 +69,7 @@ public class FacadeService {
     }
 
     public boolean updateBook(User user, Book book) {
-        if (user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
+        if (user.getTypeOfUser().equals(TypeOfUser.ADMIN) || book.getUser().equals(user)) {
             return Dependencies.bookService.updateBook(book);
         } else return false;
     }
@@ -127,9 +131,9 @@ public class FacadeService {
         bookBasket.resetReservedStatusAfterLogOutOrPurchase();
     }
 
-    public Book getBookById(long bookId){
+    public Book getBookById(long bookId) {
         Optional<Book> bookById = Dependencies.bookService.getBookById(bookId);
-        if(bookById.isPresent()){
+        if (bookById.isPresent()) {
             Book book = bookById.get();
             book.setComments(Dependencies.commentService.getAllByBookId(bookId));
             book.setLikes(Dependencies.likeService.getLikesByBook(bookId));
