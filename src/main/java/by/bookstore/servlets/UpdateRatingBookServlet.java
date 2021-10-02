@@ -22,13 +22,19 @@ public class UpdateRatingBookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int newAssessment = Integer.parseInt(req.getParameter("score"));
-
-        if(facade.updateRatingBook(bookId, newAssessment)){
-            req.setAttribute("message_upd_rating", "Thank you for your feedback!");
-        }else{
-            req.setAttribute("message_upd_rating", "Operation failed");
+        if(req.getParameter("score") != null){
+            int newAssessment = Integer.parseInt(req.getParameter("score"));
+            if(newAssessment <= 5 && newAssessment >= 1){
+                if(facade.updateRatingBook(bookId, newAssessment)){
+                    req.setAttribute("message_upd_rating", "Thank you for your feedback!");
+                }else{
+                    req.setAttribute("message_upd_rating", "Operation failed");
+                }
+            }else{
+                req.setAttribute("message_upd_rating", "Score should be between 1 and 5!");
+            }
         }
+
         req.getServletContext().getRequestDispatcher("/ratingBook.jsp").forward(req, resp);
     }
 }

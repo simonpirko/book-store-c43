@@ -12,7 +12,7 @@
         <div class="col-sm-4"
              style="text-align: center; padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px">
             <label class="form-check-label" for="rating">Please, rate the book.</label>
-            <form action="/updRatingBook" method="post" id="rating">
+            <form action="/updRatingBook" method="post" id="rating" >
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="score" id="inlineRadio1" value="1">
                     <label class="form-check-label" for="inlineRadio1">1</label>
