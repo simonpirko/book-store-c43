@@ -69,9 +69,13 @@ public class FacadeService {
     }
 
     public boolean updateBook(User user, Book book) {
-        if (user.getTypeOfUser().equals(TypeOfUser.ADMIN) || book.getUser().equals(user)) {
-            return Dependencies.bookService.updateBook(book);
-        } else return false;
+        Optional<Book> bookOp = Dependencies.bookService.getBookById(book.getId());
+        if (bookOp.isPresent()) {
+            if (user.getTypeOfUser().equals(TypeOfUser.ADMIN) || book.getUser().getId() == bookOp.get().getUser().getId()) {
+                return Dependencies.bookService.updateBook(book);
+            }
+        }
+        return false;
     }
 
     public boolean addComment(Comment comment) {

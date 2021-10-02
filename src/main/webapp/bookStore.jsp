@@ -38,7 +38,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#fafcfa ">Price: ${book.price} </li>
                         <li class="list-group-item" style="background-color:#fafcfa ">Vendor details: ${book.user.name} </li>
-                        <c:if test="${book.reserved != true}">
+                        <c:if test="${book.reserved != true && book.user.id != sessionScope.user.id}">
                             <li class="list-group-item">
                              <form action="/addReservedBook" method="post">
                                  <button class="btn btn-success btn-sm" type="submit" name="book_id" value="${book.id}">
@@ -47,7 +47,7 @@
                              </form>
                             </li>
                         </c:if>
-                        <c:if test="${sessionScope.user.typeOfUser == TypeOfUser.ADMIN }">
+                        <c:if test="${sessionScope.user.typeOfUser == TypeOfUser.ADMIN}">
                              <li  class="list-group-item" style="text-align:center">
                              <form action="/deleteBook" method="post">
                                   <button class="btn btn-danger btn-sm" type="submit" name="book_id" value="${book.id}">

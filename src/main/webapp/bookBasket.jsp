@@ -73,15 +73,26 @@
             </div>
         </c:forEach>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-sm-1">
-            <form action="/userReservedBooks" method="post">
-                <button class="btn btn-success btn-sm" type="submit" name="isBuy" value="true">
-                    Buy all
-                </button>
-            </form>
+    <c:if test="${requestScope.reservedBooks.size() != 0}">
+        <div class="row justify-content-center">
+            <div class="col-sm-1">
+                <form action="/userReservedBooks" method="post">
+                    <button class="btn btn-success btn-sm" type="submit" name="isBuy" value="true">
+                        Buy all
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
+    </c:if>
+    <c:if test="${requestScope.reservedBooks.size() == 0}">
+        <div class="row justify-content-center">
+                <div class="col-sm-4">
+                    <div class="alert alert-warning m-3" role="alert">
+                        <p>Basket is empty!</p>
+                    </div>
+                </div>
+        </div>
+    </c:if>
     <div class="row justify-content-center">
         <c:if test="${requestScope.message_purchase != null}">
             <div class="col-sm-4">

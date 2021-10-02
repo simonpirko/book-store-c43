@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name="AddBookServlet", urlPatterns = "/addBook")
+@WebServlet(name = "AddBookServlet", urlPatterns = "/addBook")
 public class AddBookServlet extends HttpServlet {
-    private final FacadeService  facadeService = new FacadeService();
+    private final FacadeService facadeService = new FacadeService();
 
 
     @Override
@@ -25,19 +25,22 @@ public class AddBookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String name = req.getParameter("name");
-       String author = req.getParameter("author");
-       double rating = Double.parseDouble(req.getParameter("rating"));
-       double price = Double.parseDouble(req.getParameter("price"));
-       User user = (User)req.getSession().getAttribute("user");
+        String name = req.getParameter("name");
+        String author = req.getParameter("author");
+        double rating = Double.parseDouble(req.getParameter("rating"));
+        double price = Double.parseDouble(req.getParameter("price"));
+        User user = (User) req.getSession().getAttribute("user");
 
-       Book book = new Book(name, author, rating, price, false, new User(user.getId()));
-       if(facadeService.addBook(book)){
-           req.setAttribute("message_add_book", "Book added");
-       } else {
-           req.setAttribute("message_add_book","Book already exists!");
-       }
+        if (rating <= 5 && rating >= 1) {
+            Book book = new Book(name, author, rating, price, false, new User(user.getId()));
+            if (facadeService.addBook(book)) {
+                req.setAttribute("message_add_book", "Book added");
+            } else {
+                req.setAttribute("message_add_book", "Book already exists!");
+            }
+        } else {
+            req.setAttribute("message_add_book", "Score should be between 1 and 5!");
+        }
         getServletContext().getRequestDispatcher("/saveBook.jsp").forward(req, resp);
-       }
-
     }
+}
