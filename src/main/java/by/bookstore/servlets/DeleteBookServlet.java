@@ -19,6 +19,7 @@ public class DeleteBookServlet extends HttpServlet {
         doPost(req, resp);
     }
 
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long bookId = Long.parseLong(req.getParameter("book_id"));

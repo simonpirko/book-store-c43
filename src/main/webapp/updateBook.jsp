@@ -16,7 +16,7 @@
     <div class="row justify-content-center">
         <div class="col-sm-4" style="padding: 30px 20px 20px; border-radius:8px; background: #e3f2fd; margin-top: 40px" >
             <legend style="text-align: center; padding-bottom: 20px">Enter info to update book</legend>
-            <form action="//updBook" method="post">
+            <form action="/updBook" method="post">
                 <div class="m-3" >
                     <input type="text" name="name" class="form-control" required placeholder="Name">
                 </div>

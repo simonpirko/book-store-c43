@@ -56,7 +56,7 @@
                                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                       <li><a class="dropdown-item" href="/account">Account</a></li>
                                       <li><a class="dropdown-item" href="/addBook">Add new book</a></li>
-                                      <li><a class="dropdown-item" href="/userBooks">Your books</a></li>
+                                      <li><a class="dropdown-item" href="/userBooks">My books</a></li>
                                       <li><hr class="dropdown-divider"></li>
                                       <li><a class="dropdown-item" href="/logOut">Sign-out</a></li>
                                   </ul>

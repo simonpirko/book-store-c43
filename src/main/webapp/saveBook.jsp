@@ -34,10 +34,6 @@
                     <button type="submit" class="btn btn-success" style="">Submit</button>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-sm-4" >
             <c:if test="${requestScope.message_add_book != null}">
                 <div class="alert alert-warning" role="alert" >
                     <p>${requestScope.message_add_book}</p>
