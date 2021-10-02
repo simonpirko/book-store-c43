@@ -30,17 +30,13 @@
                         <li class="list-group-item" style="background-color:#fafcfa ">Vendor details: ${book.user.name} </li>
                         <li class="list-group-item">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center" >
-                                <div type="btn-group">
-                                    <form action="/updBook" method="get">
-                                        <button class="btn btn-primary btn-sm" type="submit"  name="idBook" value="${book.id}" >Edit</button>
-                                    </form>
+                                <div type="btn-group" style="margin-left: 60px">
+                                    <a href="/updBook?idBook=${book.id}" class="btn btn-outline-success btn-sm"
+                                       type="button">Edit</a>
                                 </div>
                                 <div type="btn-group" style="margin-left: 60px">
-                                    <form action="" method="">
-                                        <button class="btn btn-danger btn-sm" type="submit" name="book_id" value="${book.id}">
-                                            Delete
-                                        </button>
-                                    </form>
+                                    <a href="/deleteBook?book_id=${book.id}" class="btn btn-outline-success btn-sm"
+                                       type="button">Delete</a>
                                 </div>
                             </div>
                         </li>
