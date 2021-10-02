@@ -77,7 +77,7 @@ public class FacadeService {
     public boolean deleteComment(Comment comment, User user) {
         Optional<Comment> commentOptional = Dependencies.commentService.getById(comment.getId());
         if (commentOptional.isPresent()) {
-            if (commentOptional.get().getUser().equals(user) || user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
+            if (commentOptional.get().getUser().getId() == user.getId() || user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
                 return Dependencies.commentService.delete(comment.getId());
             } else return false;
         } else return false;

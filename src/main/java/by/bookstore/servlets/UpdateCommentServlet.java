@@ -28,7 +28,6 @@ public class UpdateCommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String message = req.getParameter("message");
-
         User user = (User) req.getSession().getAttribute("user");
         if(facadeService.updateComment(new Comment(commentId, user, message, new Book(bookId)))){
             req.setAttribute("message_upd_comm", "Comment changed!");
