@@ -22,7 +22,7 @@ public class BookCommentServlet extends HttpServlet {
 
         List<Comment> list = facadeService.getCommentByBookBySorted(bookId);
         Book book = facadeService.getBookById(bookId);
-
+        System.out.println(list);
         req.setAttribute("book", book);
         req.setAttribute("listCommentsByBookId", list);
         getServletContext().getRequestDispatcher("/bookComments.jsp").forward(req, resp);

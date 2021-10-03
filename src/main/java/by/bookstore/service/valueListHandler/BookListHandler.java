@@ -1,13 +1,19 @@
 package by.bookstore.service.valueListHandler;
 
+import by.bookstore.entity.Book;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValueListHandler<T> implements ValueListIterator<T> {
+public class BookListHandler<T> implements ValueListIterator<T> {
     private final List<T> elements;
 
-    public ValueListHandler(List<T> elements) {
+    public BookListHandler(List<T> elements) {
         this.elements = elements;
+    }
+
+    public List<T> getElements() {
+        return elements;
     }
 
     @Override

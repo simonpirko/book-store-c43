@@ -17,7 +17,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     private static final String BY_ID = " WHERE  comments.id = ? ";
     private static final String DELETE = " DELETE FROM comments ";
     private static final String UPDATE = " UPDATE comments SET description = ? ";
-    private static final String GET_COMMENTS = " SELECT comments.id AS comments_id, comments.time, comments.description, b.id AS book_id, b.name, b.author, u.id AS user_id, u.name, u.picture, u.typeOfUser " +
+    private static final String GET_COMMENTS = " SELECT comments.id AS comments_id, comments.time, comments.description, b.id AS book_id, b.name, b.author, u.id AS user_id, u.name AS user_name, u.picture, u.typeOfUser " +
             "FROM comments LEFT JOIN books b on b.id = comments.book_id LEFT JOIN users u on u.id = comments.user_id ";
     private static final String BY_BOOK_ID = " WHERE b.id = ? ";
     private static final String BY_USER_ID = " WHERE u.id = ? ";
@@ -176,7 +176,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                     resultSet.getTimestamp("time"),
                     new User(
                             resultSet.getLong("user_id"),
-                            resultSet.getString("name"),
+                            resultSet.getString("user_name"),
                             resultSet.getString("picture"),
                             TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
                     ),
@@ -198,7 +198,7 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
                     resultSet.getTimestamp("time"),
                     new User(
                             resultSet.getLong("user_id"),
-                            resultSet.getString("name"),
+                            resultSet.getString("user_name"),
                             resultSet.getString("picture"),
                             TypeOfUser.valueOf(resultSet.getString("typeOfUser"))
                     ),

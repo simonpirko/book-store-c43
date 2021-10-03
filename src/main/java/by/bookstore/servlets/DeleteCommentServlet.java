@@ -32,6 +32,6 @@ public class DeleteCommentServlet extends HttpServlet {
         } else {
             req.setAttribute("message_remove_com", "error");
         }
-        resp.sendRedirect("bookComments.jsp");
+        resp.sendRedirect("/bookStore");
     }
 }
