@@ -5,7 +5,7 @@ create table if not exists users
 	login varchar(250) not null,
 	password varchar(250) not null,
 	typeOfUser varchar(250) not null,
-	picture varchar(500) not null,
+	picture varchar(2000) not null,
 	constraint users_id_uindex
 		unique (id)
 );
@@ -26,6 +26,7 @@ create table if not exists books
 		unique (id),
 	constraint books_users_id_fk
 		foreign key (user_id) references users (id)
+			on delete cascade
 );
 
 alter table books
@@ -41,7 +42,8 @@ create table if not exists comments
 	constraint users_id_uindex
 		unique (id),
 	constraint comments_books_id_fk
-		foreign key (book_id) references books (id),
+		foreign key (book_id) references books (id)
+			on delete cascade,
 	constraint comments_users_id_fk
 		foreign key (user_id) references users (id)
 );
@@ -57,7 +59,8 @@ create table if not exists likes
 	constraint likes_like_id_uindex
 		unique (id),
 	constraint likes_books_id_fk
-		foreign key (book_id) references books (id),
+		foreign key (book_id) references books (id)
+			on delete cascade,
 	constraint likes_users_id_fk
 		foreign key (user_id) references users (id)
 );

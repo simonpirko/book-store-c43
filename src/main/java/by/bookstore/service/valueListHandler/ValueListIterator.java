@@ -1,5 +1,7 @@
 package by.bookstore.service.valueListHandler;
 
+import by.bookstore.entity.Book;
+
 import java.util.List;
 
 public interface ValueListIterator<T> {

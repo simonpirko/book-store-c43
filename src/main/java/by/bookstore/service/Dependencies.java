@@ -12,4 +12,5 @@ public class Dependencies {
     public final static CommentService commentService= new CommentService(new JDBCCommentsDaoImpl());
     public final static LikeService likeService = new LikeService(new JDBCLikeDaoImpl());
     public final static UserService userService = new UserService(new JDBCUserDaoImpl());
+    public final static BookListHandlerService bookListHandlerService = new BookListHandlerService();
 }

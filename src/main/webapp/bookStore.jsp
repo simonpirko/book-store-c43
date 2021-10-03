@@ -27,7 +27,7 @@
 <jsp:include page="_header.jsp"/>
 <div class="container">
     <div class="row row-cols-auto">  <%-- Количество книг на ширину контейнера: auto или требуемое число --%>
-        <c:forEach items="${requestScope.allBooks}" var="book">
+        <c:forEach items="${requestScope.currentList}" var="book">
             <div class="col">
                 <div class="card" style="width: 18rem; background-color: #fafcfa; border-radius:8px; margin-top: 20px">
                     <div class="card-body">
@@ -60,6 +60,11 @@
                     <c:if test="${book.reserved == true}">
                         <div class="card-body">
                             Reserved
+                        </div>
+                    </c:if>
+                    <c:if test="${book.user.id == sessionScope.user.id}">
+                        <div class="card-body">
+                            Your book
                         </div>
                     </c:if>
                     <div class="card-footer text-muted">
@@ -107,6 +112,40 @@
                 </div>
             </div>
         </c:forEach>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-6 m-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <c:if test="${requestScope.currentPage != 1}">
+                            <a class="page-link" href="/bookStore?currentPage=${requestScope.currentPage - 1}">Previous</a>
+                        </c:if>
+                    </li>
+                    <c:forEach begin="1" end="${requestScope.numPages}" var="i">
+                    <c:choose>
+                    <c:when test="${requestScope.currentPage eq i}">
+                        <li class="page-item disabled">
+                            <a class="page-link">${i}</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                    <li class="page-item"><a href="/bookStore?currentPage=${i}"
+                                             class="page-link">${i}</a>
+                        </c:otherwise>
+                        </c:choose>
+                        </c:forEach>
+                    </li>
+                    <li class="page-item">
+                        <c:if test="${requestScope.currentPage lt requestScope.numPages}">
+                    <li class="page-item">
+                        <a href="/bookStore?currentPage=${currentPage + 1}" class="page-link">Next</a>
+                    </li>
+                    </c:if>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 </body>
