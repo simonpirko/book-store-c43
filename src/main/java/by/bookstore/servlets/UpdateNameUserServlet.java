@@ -2,6 +2,8 @@ package by.bookstore.servlets;
 
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "UpdateNameUserServlet", urlPatterns = "/updateNameUser")
 public class UpdateNameUserServlet extends HttpServlet {
-
+    private final Logger logger = LoggerFactory.getLogger(UpdateNameUserServlet.class.getSimpleName());
     private final FacadeService facadeService = new FacadeService();
 
     @Override
@@ -28,6 +30,7 @@ public class UpdateNameUserServlet extends HttpServlet {
         if (facadeService.changeName(user, newName)){
             req.setAttribute("message_upd_n", "Successfully update name!");
             user.setName(newName);
+            logger.info("Update name for user: {}", user.getLogin());
         }else {
             req.setAttribute("message_upd_n", "The new name cannot be the same as the old one!");
         }

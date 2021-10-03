@@ -4,6 +4,8 @@ import by.bookstore.entity.Book;
 import by.bookstore.entity.Like;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import java.io.IOException;
 @WebServlet(name = "AddLikeServlet", urlPatterns = "/addLike")
 public class AddLikeServlet extends HttpServlet {
     private final FacadeService facade = new FacadeService();
+    private final Logger logger = LoggerFactory.getLogger(AddLikeServlet.class.getSimpleName());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,7 +30,9 @@ public class AddLikeServlet extends HttpServlet {
         Book book = new Book(bookId);
         User user = (User) req.getSession().getAttribute("user");
         Like like = new Like(user, book);
-        facade.addLike(like);
+        if(facade.addLike(like)){
+            logger.info("{} added new like for book ({} {}).", user.getName(), book.getName(),book.getAuthor());
+        }
         resp.sendRedirect("/bookStore");
     }
 }

@@ -1,6 +1,9 @@
 package by.bookstore.filter;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
@@ -15,12 +18,16 @@ import java.io.IOException;
         "UpdateRatingBookServlet","UserAccountServlet","UserBookServlet","UserReservedBooksServlet"
 
 } )
-public class UserFilter extends HttpFilter {
+public class SignInFilter extends HttpFilter {
+    private final Logger logger = LoggerFactory.getLogger(SignInFilter.class.getSimpleName());
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         if(req.getSession().getAttribute("user") != null){
             chain.doFilter(req, res);
-        }else  res.sendRedirect("/main");
+        }else{
+            logger.warn("Unsuccessful attempted unauthorised access!");
+            res.sendRedirect("/main");
+        }
     }
 }

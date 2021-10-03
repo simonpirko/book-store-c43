@@ -4,6 +4,8 @@ import by.bookstore.entity.Book;
 import by.bookstore.entity.Comment;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @WebServlet(name = "AddCommentServlet", urlPatterns = "/addComment")
 public class AddCommentServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
+    private final Logger logger = LoggerFactory.getLogger(AddCommentServlet.class.getSimpleName());
     private long bookId = 0;
 
     @Override
@@ -34,6 +37,7 @@ public class AddCommentServlet extends HttpServlet {
         Comment comment = new Comment(timestamp, user, description, book);
         if (facadeService.addComment(comment)) {
             req.setAttribute("message_add_com", "Comment added!");
+            logger.info("{} added new comment for book ({} {}).", user.getName(), book.getName(),book.getAuthor());
         } else {
             req.setAttribute("message_add_com", "Comment adding error!");
         }

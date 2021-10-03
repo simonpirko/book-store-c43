@@ -55,12 +55,6 @@ public class JDBCBookDAOImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(DELETE + BY_ID );
             statement.setLong(1, id);
             statement.execute();
-//            PreparedStatement statement1 = connection.prepareStatement("DELETE FROM comments WHERE book_id = ?");
-//            statement1.setLong(1, id);
-//            statement1.execute();
-//            PreparedStatement statement2 = connection.prepareStatement("DELETE FROM likes WHERE book_id = ?");
-//            statement2.setLong(1, id);
-//            statement2.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

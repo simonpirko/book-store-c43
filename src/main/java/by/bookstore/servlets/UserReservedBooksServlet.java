@@ -4,6 +4,8 @@ import by.bookstore.entity.Book;
 import by.bookstore.entity.User;
 import by.bookstore.service.BookBasket;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @WebServlet(name = "UserReservedBooksServlet", urlPatterns = "/userReservedBooks")
 public class UserReservedBooksServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(UserReservedBooksServlet.class.getSimpleName());
     private final FacadeService facade = new FacadeService();
 
     @Override
@@ -33,6 +36,7 @@ public class UserReservedBooksServlet extends HttpServlet {
         if(isBuy){
             facade.confirmPurchase(user, bookBasket);
             req.setAttribute("message_purchase", "Items purchased successfully!");
+            logger.info("Successful book shopping for user: {}", user.getName());
         }
         req.getServletContext().getRequestDispatcher("/bookBasket.jsp").forward(req, resp);
     }

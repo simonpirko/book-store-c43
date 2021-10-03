@@ -4,6 +4,8 @@ import by.bookstore.dao.JDBCBookDAOImpl;
 import by.bookstore.entity.User;
 import by.bookstore.service.BookBasket;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,7 @@ import java.util.Optional;
 
 @WebServlet(name = "AuthorizationServlet", urlPatterns = "/auth")
 public class AuthorizationServlet extends HttpServlet {
-
+    private final Logger logger = LoggerFactory.getLogger(AuthorizationServlet.class.getSimpleName());
     private final FacadeService facadeService = new FacadeService();
 
     @Override
@@ -31,6 +33,7 @@ public class AuthorizationServlet extends HttpServlet {
         if (optionalUser.isPresent()) {
             req.getSession().setAttribute("user", optionalUser.get());
             req.getSession().setAttribute("basket", new BookBasket(new JDBCBookDAOImpl()));
+            logger.info("Successful authorisation for user: {}", optionalUser.get().getName());
             req.setAttribute("message_SignIn", "Authorization passed successfully");
         } else {
             req.setAttribute("message_SignIn", "Its user hasn't registered yet");

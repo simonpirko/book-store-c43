@@ -4,6 +4,8 @@ import by.bookstore.entity.Book;
 import by.bookstore.entity.Comment;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import java.io.IOException;
 
 @WebServlet(name = "UpdateCommentServlet", urlPatterns = "/updComm")
 public class UpdateCommentServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(UpdateCommentServlet.class.getSimpleName());
     private final FacadeService facadeService = new FacadeService();
     private long bookId = 0;
     private long commentId = 0;
@@ -31,6 +34,7 @@ public class UpdateCommentServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         if(facadeService.updateComment(new Comment(commentId, user, message, new Book(bookId)))){
             req.setAttribute("message_upd_comm", "Comment changed!");
+            logger.info("Update comment with id = {}", commentId);
         }else {
             req.setAttribute("message_upd_comm", "Operation failed!");
         }
