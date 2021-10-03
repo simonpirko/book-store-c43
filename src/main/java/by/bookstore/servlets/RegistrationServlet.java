@@ -3,6 +3,8 @@ package by.bookstore.servlets;
 import by.bookstore.entity.TypeOfUser;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/reg")
 public class RegistrationServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
+    private final Logger logger = LoggerFactory.getLogger(RegistrationServlet.class.getSimpleName());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,6 +32,7 @@ public class RegistrationServlet extends HttpServlet {
         User user = new User(name, login, password, URL, TypeOfUser.USER);
         if (facadeService.registration(user)) {
             req.setAttribute("message_reg", "Registration passed successfully");
+            logger.info("Register new user: {}", user.getName());
         } else {
             req.setAttribute("message_reg", "Its user has existed yet");
         }

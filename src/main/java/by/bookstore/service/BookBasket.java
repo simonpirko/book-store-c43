@@ -42,5 +42,6 @@ public class BookBasket {
 
     public void resetReservedStatusAfterLogOutOrPurchase(){
         basketBook.forEach(x -> bookDAO.updateBookReservedStatus(x, false));
+        basketBook.clear();
     }
 }

@@ -3,6 +3,8 @@ package by.bookstore.servlets;
 import by.bookstore.entity.Book;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 @WebServlet(name = "UpdateBookInfoServlet", urlPatterns = "/updBook")
 public class UpdateBookInfoServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(UpdateBookInfoServlet.class.getSimpleName());
     private final FacadeService facade = new FacadeService();
     private long idToUpdate = 0;
 
@@ -32,6 +35,7 @@ public class UpdateBookInfoServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         if(facade.updateBook(user, new Book(idToUpdate, name, author, rating, price, false, new User(user.getId())))){
             req.setAttribute("message_upd_book", "Operation has been successfully!");
+            logger.info("Update book with id = {}", idToUpdate);
         }else{
             req.setAttribute("message_upd_book", "Operation failed!");
         }

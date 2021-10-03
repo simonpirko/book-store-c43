@@ -1,6 +1,8 @@
 package by.bookstore.servlets;
 
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "UpdateRatingBookServlet", urlPatterns = "/updRatingBook")
 public class UpdateRatingBookServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(UpdateRatingBookServlet.class.getSimpleName());
     private final FacadeService facade = new FacadeService();
     private long bookId = 0;
 
@@ -27,6 +30,7 @@ public class UpdateRatingBookServlet extends HttpServlet {
             if(newAssessment <= 5 && newAssessment >= 1){
                 if(facade.updateRatingBook(bookId, newAssessment)){
                     req.setAttribute("message_upd_rating", "Thank you for your feedback!");
+                    logger.info("Add new score for book (id = {})", bookId);
                 }else{
                     req.setAttribute("message_upd_rating", "Operation failed");
                 }

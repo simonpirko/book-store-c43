@@ -3,6 +3,8 @@ package by.bookstore.servlets;
 import by.bookstore.entity.Book;
 import by.bookstore.service.BookListHandlerService;
 import by.bookstore.service.Dependencies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @WebServlet(name = "BookStoreServlet", urlPatterns = "/bookStore")
 public class BookStoreServlet extends HttpServlet {
+    private final Logger logger = LoggerFactory.getLogger(BookStoreServlet.class.getSimpleName());
     private int currentPage = 1;
     private final int numValuesPage = 4;
     private int numPages = 0;
@@ -35,6 +38,7 @@ public class BookStoreServlet extends HttpServlet {
         req.setAttribute("numPages", numPages);
         req.setAttribute("currentPage", currentPage);
 
+        logger.info("Request for all books.");
         getServletContext().getRequestDispatcher("/bookStore.jsp").forward(req, resp);
     }
 }

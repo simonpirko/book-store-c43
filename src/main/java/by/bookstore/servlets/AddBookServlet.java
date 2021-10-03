@@ -4,6 +4,8 @@ package by.bookstore.servlets;
 import by.bookstore.entity.Book;
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import java.io.IOException;
 @WebServlet(name = "AddBookServlet", urlPatterns = "/addBook")
 public class AddBookServlet extends HttpServlet {
     private final FacadeService facadeService = new FacadeService();
+    private final Logger logger = LoggerFactory.getLogger(AddBookServlet.class.getSimpleName());
 
 
     @Override
@@ -35,6 +38,7 @@ public class AddBookServlet extends HttpServlet {
             Book book = new Book(name, author, rating, price, false, new User(user.getId()));
             if (facadeService.addBook(book)) {
                 req.setAttribute("message_add_book", "Book added");
+                logger.info("Add new book: {}, {}.", book.getName(), book.getAuthor());
             } else {
                 req.setAttribute("message_add_book", "Book already exists!");
             }

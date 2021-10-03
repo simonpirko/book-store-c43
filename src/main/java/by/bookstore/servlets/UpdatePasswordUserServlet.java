@@ -2,6 +2,8 @@ package by.bookstore.servlets;
 
 import by.bookstore.entity.User;
 import by.bookstore.service.FacadeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "UpdatePasswordUserServlet", urlPatterns = "/updatePasswordUser")
 public class UpdatePasswordUserServlet extends HttpServlet {
-
+    private final Logger logger = LoggerFactory.getLogger(UpdatePasswordUserServlet.class.getSimpleName());
     private final FacadeService facadeService = new FacadeService();
 
     @Override
@@ -29,6 +31,7 @@ public class UpdatePasswordUserServlet extends HttpServlet {
         if (facadeService.changePassword(user, newPassword, oldPassword)){
             req.setAttribute("message_upd_p", "Successfully update password");
             user.setPassword(newPassword);
+            logger.info("Update password for user: {}", user.getLogin());
         }else {
             req.setAttribute("message_upd_p", "You entered the wrong old password or new password is the same as the old one!");
         }
