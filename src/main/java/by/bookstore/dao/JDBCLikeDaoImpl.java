@@ -16,12 +16,19 @@ public class JDBCLikeDaoImpl implements LikeDAO {
     private static final String SAVE = " INSERT INTO likes (user_id, book_id) VALUES (?, ?) ";
     private static final String IS_EXIST_BY_USER_BOOK = " SELECT * FROM likes WHERE user_id = ? and book_id = ? ";
 
+    //for methods: save, isExistByUserAndBook
+    private static final int USER_ID = 1;
+    private static final int BOOK_ID = 2;
+
+    //for methods: getLikesByBook
+    private static final int BOOK_ID2 = 1;
+
     @Override
-    public boolean save(Like like) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean save(Like like, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(SAVE);
-            statement.setLong(1, like.getUser().getId());
-            statement.setLong(2, like.getBook().getId());
+            statement.setLong(USER_ID, like.getUser().getId());
+            statement.setLong(BOOK_ID, like.getBook().getId());
             statement.execute();
             return true;
         } catch (SQLException throwables) {
@@ -31,11 +38,11 @@ public class JDBCLikeDaoImpl implements LikeDAO {
     }
 
     @Override
-    public boolean isExistByUserAndBook(Like like) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean isExistByUserAndBook(Like like, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(IS_EXIST_BY_USER_BOOK);
-            statement.setLong(1, like.getUser().getId());
-            statement.setLong(2, like.getBook().getId());
+            statement.setLong(USER_ID, like.getUser().getId());
+            statement.setLong(BOOK_ID, like.getBook().getId());
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException throwables) {
@@ -45,11 +52,11 @@ public class JDBCLikeDaoImpl implements LikeDAO {
     }
 
     @Override
-    public List<Like> getLikesByBook(long idBook) {
+    public List<Like> getLikesByBook(long idBook, Connection connection) {
         List<Like> likeList = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(GET_LIKES_BY_BOOK);
-            statement.setLong(1, idBook);
+            statement.setLong(BOOK_ID2, idBook);
             ResultSet resultSet = statement.executeQuery();
             likeList = getLikesFromResult(resultSet);
         } catch (SQLException throwables) {

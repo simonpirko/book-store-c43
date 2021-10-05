@@ -4,7 +4,6 @@ import by.bookstore.entity.Book;
 import by.bookstore.entity.Comment;
 import by.bookstore.entity.TypeOfUser;
 import by.bookstore.entity.User;
-import by.bookstore.utils.MySQLConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,15 +23,37 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     private static final String BY_INFO = " WHERE (user_id = ? AND book_id = ? AND description = ?) ";
     private static final String IS_EXIST = " SELECT * FROM comments ";
 
+    //for methods: save
+    private static final int TIME = 1;
+    private static final int USER_ID = 2;
+    private static final int DESCRIPTION = 3;
+    private static final int BOOK_ID = 4;
+
+    //for methods: deleteById, getById, isExistById
+    private static final int COMMENT_ID = 1;
+
+    //for methods: getAllByBookId, getAllByBookIdSortByDate
+    private static final int BOOK_ID2 = 1;
+
+    //for methods: update
+    private static final int DESCRIPTION2 = 1;
+    private static final int COMMENT_ID2 = 2;
+
+    //for methods: getAllByUserId, isExistByInfo, getAllByUserIdAndBookId
+    private static final int USER_ID2 = 1;
+    private static final int BOOK_ID3 = 2;
+
+    //for methods: isExistByInfo
+    private static final int DESCRIPTION3 = 3;
 
     @Override
-    public boolean save(Comment comment) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean save(Comment comment, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(SAVE);
-            statement.setTimestamp(1, comment.getTime());
-            statement.setLong(2, comment.getUser().getId());
-            statement.setString(3, comment.getDescription());
-            statement.setLong(4, comment.getBook().getId());
+            statement.setTimestamp(TIME, comment.getTime());
+            statement.setLong(USER_ID, comment.getUser().getId());
+            statement.setString(DESCRIPTION, comment.getDescription());
+            statement.setLong(BOOK_ID, comment.getBook().getId());
             statement.execute();
             return true;
         } catch (SQLException throwables) {
@@ -42,10 +63,10 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public boolean deleteById(long commentId) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean deleteById(long commentId, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(DELETE + BY_ID);
-            statement.setLong(1, commentId);
+            statement.setLong(COMMENT_ID, commentId);
             statement.execute();
             return true;
         } catch (SQLException throwables) {
@@ -55,11 +76,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public boolean update(Comment comment) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean update(Comment comment, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(UPDATE + BY_ID);
-            statement.setString(1, comment.getDescription());
-            statement.setLong(2, comment.getId());
+            statement.setString(DESCRIPTION2, comment.getDescription());
+            statement.setLong(COMMENT_ID2, comment.getId());
             statement.execute();
             return true;
         } catch (SQLException throwables) {
@@ -69,11 +90,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public Comment getById(long commentId) {
+    public Comment getById(long commentId, Connection connection) {
         Comment comment = new Comment();
-        try (Connection connection = MySQLConnection.getConnection()) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_ID);
-            statement.setLong(1, commentId);
+            statement.setLong(COMMENT_ID, commentId);
             ResultSet resultSet = statement.executeQuery();
             comment = getCommentFromResult(resultSet);
         } catch (SQLException throwables) {
@@ -83,11 +104,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public List<Comment> getAllByBookId(long bookId) {
+    public List<Comment> getAllByBookId(long bookId, Connection connection) {
         List<Comment> commentList = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_BOOK_ID);
-            statement.setLong(1, bookId);
+            statement.setLong(BOOK_ID2, bookId);
             ResultSet resultSet = statement.executeQuery();
             commentList = getCommentsFromResult(resultSet);
         } catch (SQLException throwables) {
@@ -97,11 +118,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public List<Comment> getAllByUserId(long userId) {
+    public List<Comment> getAllByUserId(long userId, Connection connection) {
         List<Comment> commentList = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_USER_ID);
-            statement.setLong(1, userId);
+            statement.setLong(USER_ID2, userId);
             ResultSet resultSet = statement.executeQuery();
             commentList = getCommentsFromResult(resultSet);
         } catch (SQLException throwables) {
@@ -111,12 +132,12 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public List<Comment> getAllByUserIdAndBookId(long userId, long bookId) {
+    public List<Comment> getAllByUserIdAndBookId(long userId, long bookId, Connection connection) {
             List<Comment> commentList = new ArrayList<>();
-            try (Connection connection = MySQLConnection.getConnection()) {
+            try  {
                 PreparedStatement statement = connection.prepareStatement(GET_COMMENTS + BY_USER_ID + BY_BOOK_ID);
-                statement.setLong(1, userId);
-                statement.setLong(2, bookId);
+                statement.setLong(USER_ID2, userId);
+                statement.setLong(BOOK_ID3, bookId);
                 ResultSet resultSet = statement.executeQuery();
                 commentList = getCommentsFromResult(resultSet);
             } catch (SQLException throwables) {
@@ -126,12 +147,12 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
         }
 
     @Override
-    public boolean isExistByInfo(Comment comment) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean isExistByInfo(Comment comment, Connection connection) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(IS_EXIST + BY_INFO);
-            preparedStatement.setLong(1, comment.getUser().getId());
-            preparedStatement.setLong(2, comment.getBook().getId());
-            preparedStatement.setString(3, comment.getDescription());
+            preparedStatement.setLong(USER_ID2, comment.getUser().getId());
+            preparedStatement.setLong(BOOK_ID3, comment.getBook().getId());
+            preparedStatement.setString(DESCRIPTION3, comment.getDescription());
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException throwables) {
@@ -141,10 +162,10 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public boolean isExistById(long commentId) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean isExistById(long commentId, Connection connection) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(IS_EXIST + BY_ID);
-            preparedStatement.setLong(1, commentId);
+            preparedStatement.setLong(COMMENT_ID, commentId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException throwables) {
@@ -154,11 +175,11 @@ public class JDBCCommentsDaoImpl implements CommentsDao {
     }
 
     @Override
-    public List<Comment> getAllByBookIdSortByDate(long bookId) {
+    public List<Comment> getAllByBookIdSortByDate(long bookId, Connection connection) {
         List<Comment> comments = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_COMMENTS + BY_BOOK_ID);
-            preparedStatement.setLong(1, bookId);
+            preparedStatement.setLong(BOOK_ID2, bookId);
             ResultSet resultSet = preparedStatement.executeQuery();
             comments = getCommentsFromResult(resultSet);
             comments.sort(Comparator.comparing(Comment::getTime));

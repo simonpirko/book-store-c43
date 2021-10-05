@@ -4,6 +4,8 @@ import by.bookstore.dao.BookDAO;
 import by.bookstore.entity.Book;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,64 +16,62 @@ public class BookService {
     private BookDAO bookDAO;
 
 
-    public Optional<Book> getBookById(long idBook){
-        if(bookDAO.isExistById(idBook)){
-            return Optional.of(bookDAO.getBookById(idBook));
+    public Optional<Book> getBookById(long idBook, Connection connection){
+        if(bookDAO.isExistById(idBook, connection)){
+            return Optional.of(bookDAO.getBookById(idBook, connection));
         }else return Optional.empty();
     }
 
-    public boolean saveBookById(Book book){
-        if(bookDAO.isExistById(book.getId())){
-            return bookDAO.saveBook(book);
+    public boolean saveBookById(Book book, Connection connection){
+        if(bookDAO.isExistById(book.getId(), connection)){
+            return bookDAO.saveBook(book, connection);
         }
         return false;
     }
 
-    public boolean saveBookByNameAuthor(Book book){
-        if(!bookDAO.isExistByNameAuthor(book.getName(), book.getAuthor())){
-            return bookDAO.saveBook(book);
+    public boolean saveBookByNameAuthor(Book book, Connection connection){
+        if(!bookDAO.isExistByNameAuthor(book.getName(), book.getAuthor(), connection)){
+            return bookDAO.saveBook(book, connection);
         }
         return false;
     }
 
 
-    public boolean deleteBookById(long id){
-        if(bookDAO.isExistById(id)){
-            return bookDAO.deleteById(id);
+    public boolean deleteBookById(long id, Connection connection){
+        if(bookDAO.isExistById(id, connection)){
+            return bookDAO.deleteById(id, connection);
         }
         return false;
     }
 
-    public boolean updateBook(Book book){
-        if(bookDAO.isExistById(book.getId())){
-            return bookDAO.updateBook(book);
+    public boolean updateBook(Book book, Connection connection){
+        if(bookDAO.isExistById(book.getId(), connection)){
+            return bookDAO.updateBook(book, connection);
         }
         return false;
     }
 
-    public boolean updateBookRating(long idBook, int rating){
-        if(bookDAO.isExistById(idBook)){
-            double oldRating = getBookById(idBook).get().getRating();
+    public boolean updateBookRating(long idBook, int rating, Connection connection){
+        if(bookDAO.isExistById(idBook, connection)){
+            double oldRating = getBookById(idBook, connection).get().getRating();
             double newRating = (oldRating + rating) / 2;
-            return bookDAO.updateRating(idBook, newRating);
+            return bookDAO.updateRating(idBook, newRating, connection);
         }
         return false;
     }
 
-    public List<Book> getAllBooks(){
-        return bookDAO.getAllBooks();
+    public List<Book> getAllBooks(Connection connection){
+        return bookDAO.getAllBooks(connection);
     }
 
 
-    public List<Book> getBooksByUser(long idUser){
-        return bookDAO.getBooksByUser(idUser);
+    public List<Book> getBooksByUser(long idUser, Connection connection){
+        return bookDAO.getBooksByUser(idUser, connection);
     }
 
-    public List<Book> getReservedBookByUser(long idUser){
-        return bookDAO.getReservedBookByUser(idUser, true);
+    public List<Book> getReservedBookByUser(long idUser, Connection connection){
+        return bookDAO.getReservedBookByUser(idUser, true, connection);
     }
-
-
 }
 
 

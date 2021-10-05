@@ -15,15 +15,36 @@ public class JDBCUserDaoImpl implements UserDao {
     private static final String UPDATE_PASSWORD = " UPDATE users SET password = ? ";
     private static final String UPDATE_NAME = " UPDATE users SET name = ? ";
 
+    //for methods: save, updateName
+    private static final int NAME = 1;
+
+    //for methods: save
+    private static final int LOGIN = 2;
+    private static final int PASSWORD = 3;
+    private static final int PICTURE = 4;
+    private static final int TYPE_USER = 5;
+
+    //for methods: getByLogin, isExistByLogin
+    private static final int LOGIN2 = 1;
+
+    //for methods: updateName, updatePassword
+    private static final int USER_ID = 2;
+
+    //for methods: updatePassword
+    private static final int PASSWORD2 = 1;
+
+    //for methods: isExistById
+    private static final int USER_ID2 = 1;
+
     @Override
-    public boolean save(User user) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean save(User user, Connection connection) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(SAVE);
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getLogin());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getPicture());
-            preparedStatement.setString(5, user.getTypeOfUser().name());
+            preparedStatement.setString(NAME, user.getName());
+            preparedStatement.setString(LOGIN, user.getLogin());
+            preparedStatement.setString(PASSWORD, user.getPassword());
+            preparedStatement.setString(PICTURE, user.getPicture());
+            preparedStatement.setString(TYPE_USER, user.getTypeOfUser().name());
             preparedStatement.execute();
             return true;
         } catch (SQLException exception) {
@@ -33,11 +54,11 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getByLogin(String login) {
+    public User getByLogin(String login, Connection connection) {
         User userByLogin = new User();
-        try (Connection connection = MySQLConnection.getConnection()) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_USERS + BY_LOGIN);
-            preparedStatement.setString(1, login);
+            preparedStatement.setString(LOGIN2, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             userByLogin = getUserFromResult(resultSet);
         } catch (SQLException exception) {
@@ -47,11 +68,11 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateName(User user, String newName) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean updateName(User user, String newName, Connection connection) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_NAME + BY_ID);
-            preparedStatement.setString(1, newName);
-            preparedStatement.setLong(2, user.getId());
+            preparedStatement.setString(NAME, newName);
+            preparedStatement.setLong(USER_ID, user.getId());
             preparedStatement.execute();
             return true;
         } catch (SQLException exception) {
@@ -61,11 +82,11 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updatePassword(User user, String newPassword) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean updatePassword(User user, String newPassword, Connection connection) {
+        try  {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PASSWORD + BY_ID);
-            preparedStatement.setString(1, newPassword);
-            preparedStatement.setLong(2, user.getId());
+            preparedStatement.setString(PASSWORD2, newPassword);
+            preparedStatement.setLong(USER_ID, user.getId());
             preparedStatement.execute();
             return true;
         } catch (SQLException exception) {
@@ -75,10 +96,10 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean isExistById(long id) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean isExistById(long id, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(GET_USERS + BY_ID);
-            statement.setLong(1, id);
+            statement.setLong(USER_ID2, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return true;
@@ -90,10 +111,10 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean isExistByLogin(String login) {
-        try (Connection connection = MySQLConnection.getConnection()) {
+    public boolean isExistByLogin(String login, Connection connection) {
+        try  {
             PreparedStatement statement = connection.prepareStatement(GET_USERS + BY_LOGIN);
-            statement.setString(1, login);
+            statement.setString(LOGIN2, login);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException exception) {

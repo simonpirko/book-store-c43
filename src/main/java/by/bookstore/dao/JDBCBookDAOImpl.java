@@ -3,7 +3,6 @@ package by.bookstore.dao;
 import by.bookstore.entity.Book;
 import by.bookstore.entity.TypeOfUser;
 import by.bookstore.entity.User;
-import by.bookstore.utils.MySQLConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,16 +30,44 @@ public class JDBCBookDAOImpl implements BookDAO {
             " u.name, u.picture, u.typeOfUser FROM books b LEFT JOIN users u on u.id = b.user_id WHERE b.reserved = ? AND b.user_id = ? ";
     private static final String UPDATE_RATING = " UPDATE books b SET b.rating = ? ";
 
+    //for methods: save, update, isExistByNameAuthor, isExistByNameAuthor, getBookByNameAuthor
+    private static final int NAME = 1;
+    private static final int AUTHOR = 2;
+    private static final int RATING = 3;
+    private static final int PRICE = 4;
+    private static final int RESERVED = 5;
+    private static final int USER_ID = 6;
+    private static final int BOOK_ID = 7;
+
+    //for methods: deleteById, isExistById, getBookById
+    private static final int BOOK_ID2 = 1;
+
+    //for methods: updateBookReservedStatus, getReservedBookByUser
+    private static final int RESERVED2 = 1;
+
+    //for methods: updateBookReservedStatus, updateBookOwner, getReservedBookByUser
+    private static final int BOOK_ID3 = 2;
+
+    //for methods: updateBookOwner, getBooksByUser
+    private static final int USER_ID2 = 1;
+
+    //for methods: getReservedBookByUser, updateRating
+    private static final int USER_ID3 = 2;
+
+    //for methods: updateRating
+    private static final int RATING2 = 1;
+
+
     @Override
-    public boolean saveBook(Book book) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean saveBook(Book book, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(SAVE);
-            statement.setString(1, book.getName());
-            statement.setString(2, book.getAuthor());
-            statement.setDouble(3, book.getRating());
-            statement.setDouble(4, book.getPrice());
-            statement.setBoolean(5, book.isReserved());
-            statement.setLong(6, book.getUser().getId());
+            statement.setString(NAME, book.getName());
+            statement.setString(AUTHOR, book.getAuthor());
+            statement.setDouble(RATING, book.getRating());
+            statement.setDouble(PRICE, book.getPrice());
+            statement.setBoolean(RESERVED, book.isReserved());
+            statement.setLong(USER_ID, book.getUser().getId());
             statement.execute();
             return true;
         } catch(SQLException e) {
@@ -50,10 +77,10 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean deleteById(long id) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean deleteById(long id, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(DELETE + BY_ID );
-            statement.setLong(1, id);
+            statement.setLong(BOOK_ID2, id);
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -63,16 +90,16 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean updateBook(Book book) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean updateBook(Book book, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK + BY_ID );
-            statement.setString(1, book.getName());
-            statement.setString(2, book.getAuthor());
-            statement.setDouble(3, book.getRating());
-            statement.setDouble(4, book.getPrice());
-            statement.setBoolean(5, book.isReserved());
-            statement.setLong(6, book.getUser().getId());
-            statement.setLong(7, book.getId());
+            statement.setString(NAME, book.getName());
+            statement.setString(AUTHOR, book.getAuthor());
+            statement.setDouble(RATING, book.getRating());
+            statement.setDouble(PRICE, book.getPrice());
+            statement.setBoolean(RESERVED, book.isReserved());
+            statement.setLong(USER_ID, book.getUser().getId());
+            statement.setLong(BOOK_ID, book.getId());
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -82,11 +109,11 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean updateBookReservedStatus(long bookId, boolean flag) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean updateBookReservedStatus(long bookId, boolean flag, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK_RESERVED + BY_ID);
-            statement.setBoolean(1, flag);
-            statement.setLong(2, bookId);
+            statement.setBoolean(RESERVED2, flag);
+            statement.setLong(BOOK_ID3, bookId);
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -96,11 +123,11 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean updateBookOwner(long bookId, long idUser) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean updateBookOwner(long bookId, long idUser, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK_OWNER + BY_ID);
-            statement.setLong(1, idUser);
-            statement.setLong(2, bookId);
+            statement.setLong(USER_ID2, idUser);
+            statement.setLong(BOOK_ID3, bookId);
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -110,10 +137,10 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean isExistById(long id) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean isExistById(long id, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(IS_EXIST_BY_ID + BY_ID);
-            statement.setLong(1, id);
+            statement.setLong(BOOK_ID2, id);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
@@ -123,11 +150,11 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean isExistByNameAuthor(String name, String author) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean isExistByNameAuthor(String name, String author, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(IS_EXIST_BY_AUTHOR + BY_AUTHOR);
-            statement.setString(1, name);
-            statement.setString(2, author);
+            statement.setString(NAME, name);
+            statement.setString(AUTHOR, author);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
@@ -137,11 +164,11 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book getBookById(long id) {
+    public Book getBookById(long id, Connection connection) {
         Book book = new Book();
-        try (Connection connection = MySQLConnection.getConnection()){
+        try {
             PreparedStatement statement = connection.prepareStatement(GET_BOOK + BY_ID);
-            statement.setLong(1, id);
+            statement.setLong(BOOK_ID2, id);
             ResultSet resultSet = statement.executeQuery();
             book = getBookFromResult(resultSet);
         } catch (SQLException e) {
@@ -151,12 +178,12 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book getBookByNameAuthor(String name, String author) {
+    public Book getBookByNameAuthor(String name, String author, Connection connection) {
            Book book = new Book();
-        try (Connection connection = MySQLConnection.getConnection()){
+        try {
             PreparedStatement statement = connection.prepareStatement(GET_BOOK + BY_AUTHOR);
-            statement.setString(1, name);
-            statement.setString(2, author);
+            statement.setString(NAME, name);
+            statement.setString(AUTHOR, author);
             ResultSet resultSet = statement.executeQuery();
             book =  getBookFromResult(resultSet);
         } catch (SQLException e) {
@@ -166,9 +193,9 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks(Connection connection) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()){
+        try {
             PreparedStatement statement = connection.prepareStatement(GET_BOOK);
             ResultSet resultSet = statement.executeQuery();
             books = getBooksFromResult(resultSet);
@@ -179,11 +206,11 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> getBooksByUser(long userId) {
+    public List<Book> getBooksByUser(long userId, Connection connection) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()){
+        try {
             PreparedStatement statement = connection.prepareStatement(GET_BOOKS_BY_USER);
-            statement.setLong(1, userId);
+            statement.setLong(USER_ID2, userId);
             ResultSet resultSet = statement.executeQuery();
             books = getBooksFromResult(resultSet);
         } catch (SQLException e) {
@@ -193,12 +220,12 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> getReservedBookByUser(long userId, boolean flag) {
+    public List<Book> getReservedBookByUser(long userId, boolean flag, Connection connection) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = MySQLConnection.getConnection()){
+        try {
             PreparedStatement statement = connection.prepareStatement(GET_RESERVED_BOOKS_BY_USER);
-            statement.setBoolean(1, flag);
-            statement.setLong(2, userId);
+            statement.setBoolean(RESERVED2, flag);
+            statement.setLong(USER_ID3, userId);
             ResultSet resultSet = statement.executeQuery();
             books = getBooksFromResult(resultSet);
         } catch (SQLException e) {
@@ -208,11 +235,11 @@ public class JDBCBookDAOImpl implements BookDAO {
     }
 
     @Override
-    public boolean updateRating(long id, double rating) {
-        try (Connection connection = MySQLConnection.getConnection()){
+    public boolean updateRating(long id, double rating, Connection connection) {
+        try {
             PreparedStatement statement = connection.prepareStatement(UPDATE_RATING + BY_ID);
-            statement.setDouble(1, rating);
-            statement.setLong(2, id);
+            statement.setDouble(RATING2, rating);
+            statement.setLong(BOOK_ID3, id);
             statement.execute();
             return true;
         } catch (SQLException e) {

@@ -2,145 +2,146 @@ package by.bookstore.service;
 
 import by.bookstore.entity.*;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
 public class FacadeService {
 
-    public boolean registration(User user) {
-        return Dependencies.userService.saveUser(user);
+    public boolean registration(User user, Connection connection) {
+        return Dependencies.userService.saveUser(user, connection);
     }
 
-    public Optional<User> authorization(User user) {
-        return Dependencies.userService.authorization(user);
+    public Optional<User> authorization(User user, Connection connection) {
+        return Dependencies.userService.authorization(user, connection);
     }
 
-    public boolean changePassword(User user, String newPassword, String oldPassword) {
-        return Dependencies.userService.updatePassword(user, oldPassword, newPassword);
+    public boolean changePassword(User user, String newPassword, String oldPassword, Connection connection) {
+        return Dependencies.userService.updatePassword(user, oldPassword, newPassword, connection);
     }
 
-    public boolean changeName(User user, String name) {
-        return Dependencies.userService.updateName(user, name);
+    public boolean changeName(User user, String name, Connection connection) {
+        return Dependencies.userService.updateName(user, name, connection);
     }
 
-    public boolean addBook(Book book) {
-        return Dependencies.bookService.saveBookByNameAuthor(book);
+    public boolean addBook(Book book, Connection connection) {
+        return Dependencies.bookService.saveBookByNameAuthor(book, connection);
     }
 
-    public boolean deleteBook(User user, long idBook) {
-        Optional<Book> book = Dependencies.bookService.getBookById(idBook);
+    public boolean deleteBook(User user, long idBook, Connection connection) {
+        Optional<Book> book = Dependencies.bookService.getBookById(idBook, connection);
         if (book.isPresent()) {
             if (book.get().getUser().getId() == user.getId() || user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
-                return Dependencies.bookService.deleteBookById(idBook);
+                return Dependencies.bookService.deleteBookById(idBook, connection);
             }
         }
         return false;
     }
 
-    public List<Book> getBooksByUserId(long idUser) {
-        List<Book> books = Dependencies.bookService.getBooksByUser(idUser);
+    public List<Book> getBooksByUserId(long idUser, Connection connection) {
+        List<Book> books = Dependencies.bookService.getBooksByUser(idUser, connection);
         for (Book book : books) {
-            book.setLikes(Dependencies.likeService.getLikesByBook(book.getId()));
-            book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId()));
+            book.setLikes(Dependencies.likeService.getLikesByBook(book.getId(), connection));
+            book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId(), connection));
         }
         return books;
     }
 
-    public List<Book> getReservedBooks(BookBasket bookBasket) {
-        List<Book> books = bookBasket.getReservedBooks();
+    public List<Book> getReservedBooks(BookBasket bookBasket, Connection connection) {
+        List<Book> books = bookBasket.getReservedBooks(connection);
         for (Book book : books) {
-            book.setLikes(Dependencies.likeService.getLikesByBook(book.getId()));
-            book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId()));
+            book.setLikes(Dependencies.likeService.getLikesByBook(book.getId(), connection));
+            book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId(), connection));
         }
         return books;
     }
 
-    public List<Book> getBooks() {
-        List<Book> books = Dependencies.bookService.getAllBooks();
+    public List<Book> getBooks(Connection connection) {
+        List<Book> books = Dependencies.bookService.getAllBooks(connection);
         for (Book book : books) {
-            book.setLikes(Dependencies.likeService.getLikesByBook(book.getId()));
-            book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId()));
+            book.setLikes(Dependencies.likeService.getLikesByBook(book.getId(), connection));
+            book.setComments(Dependencies.commentService.getAllByBookIdSortByDate(book.getId(), connection));
         }
         return books;
     }
 
-    public boolean updateRatingBook(long idBook, int assessment) {
-        return Dependencies.bookService.updateBookRating(idBook, assessment);
+    public boolean updateRatingBook(long idBook, int assessment, Connection connection) {
+        return Dependencies.bookService.updateBookRating(idBook, assessment, connection);
     }
 
-    public boolean updateBook(User user, Book book) {
-        Optional<Book> bookOp = Dependencies.bookService.getBookById(book.getId());
+    public boolean updateBook(User user, Book book, Connection connection) {
+        Optional<Book> bookOp = Dependencies.bookService.getBookById(book.getId(), connection);
         if (bookOp.isPresent()) {
             if (user.getTypeOfUser().equals(TypeOfUser.ADMIN) || book.getUser().getId() == bookOp.get().getUser().getId()) {
-                return Dependencies.bookService.updateBook(book);
+                return Dependencies.bookService.updateBook(book, connection);
             }
         }
         return false;
     }
 
-    public boolean addComment(Comment comment) {
-        return Dependencies.commentService.save(comment);
+    public boolean addComment(Comment comment, Connection connection) {
+        return Dependencies.commentService.save(comment, connection);
     }
 
-    public boolean deleteComment(Comment comment, User user) {
-        Optional<Comment> commentOptional = Dependencies.commentService.getById(comment.getId());
+    public boolean deleteComment(Comment comment, User user, Connection connection) {
+        Optional<Comment> commentOptional = Dependencies.commentService.getById(comment.getId(), connection);
         if (commentOptional.isPresent()) {
             if (commentOptional.get().getUser().getId() == user.getId() || user.getTypeOfUser().equals(TypeOfUser.ADMIN)) {
-                return Dependencies.commentService.delete(comment.getId());
+                return Dependencies.commentService.delete(comment.getId(), connection);
             } else return false;
         } else return false;
     }
 
-    public List<Comment> getCommentsByUser(long idUser) {
-        return Dependencies.commentService.getAllByUserId(idUser);
+    public List<Comment> getCommentsByUser(long idUser, Connection connection) {
+        return Dependencies.commentService.getAllByUserId(idUser, connection);
     }
 
-    public List<Comment> getCommentByUserAndBook(long idUser, long idBook) {
-        return Dependencies.commentService.getAllByUserIdAndBookId(idUser, idBook);
+    public List<Comment> getCommentByUserAndBook(long idUser, long idBook, Connection connection) {
+        return Dependencies.commentService.getAllByUserIdAndBookId(idUser, idBook, connection);
     }
 
-    public List<Comment> getCommentsByBook(long idBook) {
-        return Dependencies.commentService.getAllByBookId(idBook);
+    public List<Comment> getCommentsByBook(long idBook, Connection connection) {
+        return Dependencies.commentService.getAllByBookId(idBook, connection);
     }
 
-    public Optional<Comment> getComment(long idComment) {
-        return Dependencies.commentService.getById(idComment);
+    public Optional<Comment> getComment(long idComment, Connection connection) {
+        return Dependencies.commentService.getById(idComment, connection);
     }
 
-    public boolean updateComment(Comment comment) {
-        return Dependencies.commentService.update(comment);
+    public boolean updateComment(Comment comment, Connection connection) {
+        return Dependencies.commentService.update(comment, connection);
     }
 
-    public List<Comment> getCommentByBookBySorted(long idBook) {
-        return Dependencies.commentService.getAllByBookIdSortByDate(idBook);
+    public List<Comment> getCommentByBookBySorted(long idBook, Connection connection) {
+        return Dependencies.commentService.getAllByBookIdSortByDate(idBook, connection);
     }
 
-    public boolean addLike(Like like) {
-        return Dependencies.likeService.saveLike(like);
+    public boolean addLike(Like like, Connection connection) {
+        return Dependencies.likeService.saveLike(like, connection);
     }
 
-    public List<Like> getLikesByBook(long idBook) {
-        return Dependencies.likeService.getLikesByBook(idBook);
+    public List<Like> getLikesByBook(long idBook, Connection connection) {
+        return Dependencies.likeService.getLikesByBook(idBook, connection);
     }
 
-    public boolean addBookInBasket(long idBook, BookBasket bookBasket) {
-        return bookBasket.saveInBasket(idBook);
+    public boolean addBookInBasket(long idBook, BookBasket bookBasket, Connection connection) {
+        return bookBasket.saveInBasket(idBook, connection);
     }
 
-    public void confirmPurchase(User user, BookBasket bookBasket) {
-        bookBasket.setStatusOwnerAfterPurchase(user);
+    public void confirmPurchase(User user, BookBasket bookBasket, Connection connection) {
+        bookBasket.setStatusOwnerAfterPurchase(user, connection);
     }
 
-    public void resetReservedStatusBookAfterLogOut(BookBasket bookBasket) {
-        bookBasket.resetReservedStatusAfterLogOutOrPurchase();
+    public void resetReservedStatusBookAfterLogOut(BookBasket bookBasket, Connection connection) {
+        bookBasket.resetReservedStatusAfterLogOutOrPurchase(connection);
     }
 
-    public Book getBookById(long bookId) {
-        Optional<Book> bookById = Dependencies.bookService.getBookById(bookId);
+    public Book getBookById(long bookId, Connection connection) {
+        Optional<Book> bookById = Dependencies.bookService.getBookById(bookId, connection);
         if (bookById.isPresent()) {
             Book book = bookById.get();
-            book.setComments(Dependencies.commentService.getAllByBookId(bookId));
-            book.setLikes(Dependencies.likeService.getLikesByBook(bookId));
+            book.setComments(Dependencies.commentService.getAllByBookId(bookId, connection));
+            book.setLikes(Dependencies.likeService.getLikesByBook(bookId, connection));
             return book;
         }
         return new Book();

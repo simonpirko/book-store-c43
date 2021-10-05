@@ -3,6 +3,7 @@ package by.bookstore.service;
 import by.bookstore.dao.UserDao;
 import by.bookstore.entity.User;
 
+import java.sql.Connection;
 import java.util.Optional;
 
 public class UserService {
@@ -14,30 +15,30 @@ public class UserService {
 
     public UserService() {}
 
-    public boolean saveUser(User user){
-        if(!userDao.isExistByLogin(user.getLogin())){
-            return userDao.save(user);
+    public boolean saveUser(User user, Connection connection){
+        if(!userDao.isExistByLogin(user.getLogin(), connection)){
+            return userDao.save(user, connection);
         }
         return false;
     }
 
-    public Optional<User> authorization(User user){
-        if(userDao.isExistByLogin(user.getLogin())){
-            return Optional.of(userDao.getByLogin(user.getLogin()));
+    public Optional<User> authorization(User user, Connection connection){
+        if(userDao.isExistByLogin(user.getLogin(), connection)){
+            return Optional.of(userDao.getByLogin(user.getLogin(), connection));
         }
         return Optional.empty();
     }
 
-    public boolean updateName(User user, String newName){
+    public boolean updateName(User user, String newName, Connection connection){
         if (!user.getName().equals(newName)){
-            return userDao.updateName(user, newName);
+            return userDao.updateName(user, newName, connection);
         }
         return false;
     }
 
-    public boolean updatePassword(User user, String oldPassword, String newPassword){
+    public boolean updatePassword(User user, String oldPassword, String newPassword, Connection connection){
         if (user.getPassword().equals(oldPassword) && !user.getPassword().equals(newPassword)){
-            return userDao.updatePassword(user, newPassword);
+            return userDao.updatePassword(user, newPassword, connection);
         }
         return false;
     }

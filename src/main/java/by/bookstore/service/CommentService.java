@@ -4,6 +4,7 @@ import by.bookstore.dao.CommentsDao;
 import by.bookstore.dao.JDBCCommentsDaoImpl;
 import by.bookstore.entity.Comment;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,38 +22,38 @@ public class CommentService {
         return commentsDao;
     }
 
-    public boolean save(Comment comment) {
-        return !commentsDao.isExistByInfo(comment) && commentsDao.save(comment);
+    public boolean save(Comment comment, Connection connection) {
+        return !commentsDao.isExistByInfo(comment, connection) && commentsDao.save(comment, connection);
     }
 
-    public boolean delete(long commentId){
-        return commentsDao.isExistById(commentId) && commentsDao.deleteById(commentId);
+    public boolean delete(long commentId, Connection connection){
+        return commentsDao.isExistById(commentId, connection) && commentsDao.deleteById(commentId, connection);
     }
 
-    public List<Comment> getAllByUserId(long userId){
-        return commentsDao.getAllByUserId(userId);
+    public List<Comment> getAllByUserId(long userId, Connection connection){
+        return commentsDao.getAllByUserId(userId, connection);
     }
 
-    public List<Comment>getAllByUserIdAndBookId(long userId, long bookId){
-        return commentsDao.getAllByUserIdAndBookId(userId,bookId);
+    public List<Comment>getAllByUserIdAndBookId(long userId, long bookId, Connection connection){
+        return commentsDao.getAllByUserIdAndBookId(userId,bookId, connection);
     }
 
-    public List<Comment>getAllByBookId(long bookId){
-        return commentsDao.getAllByBookId(bookId);
+    public List<Comment>getAllByBookId(long bookId, Connection connection){
+        return commentsDao.getAllByBookId(bookId, connection);
     }
 
-    public Optional<Comment> getById(long commentId) {
-        if (commentsDao.isExistById(commentId)) {
-            return Optional.of(commentsDao.getById(commentId));
+    public Optional<Comment> getById(long commentId, Connection connection) {
+        if (commentsDao.isExistById(commentId, connection)) {
+            return Optional.of(commentsDao.getById(commentId, connection));
         }else return Optional.empty();
     }
 
-    public boolean update(Comment comment){
-        return commentsDao.isExistById(comment.getId()) && commentsDao.update(comment);
+    public boolean update(Comment comment, Connection connection){
+        return commentsDao.isExistById(comment.getId(), connection) && commentsDao.update(comment, connection);
     }
 
-    public List<Comment> getAllByBookIdSortByDate(long bookId){
-        return commentsDao.getAllByBookIdSortByDate(bookId);
+    public List<Comment> getAllByBookIdSortByDate(long bookId, Connection connection){
+        return commentsDao.getAllByBookIdSortByDate(bookId, connection);
     }
 
 }

@@ -1,15 +1,16 @@
 package by.bookstore.service;
 
 import by.bookstore.entity.Book;
-import by.bookstore.service.valueListHandler.BookListHandler;
+import by.bookstore.service.valueListHandler.ValueListHandler;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class BookListHandlerService {
     private int numPagesForResponse = 0;
 
-    public List<Book> getCurrentPage(int numCurrentPage, int numValuesPage){
-        BookListHandler<Book> booListHandler = new BookListHandler<>(new FacadeService().getBooks());
+    public List<Book> getCurrentPage(int numCurrentPage, int numValuesPage, Connection connection){
+        ValueListHandler<Book> booListHandler = new ValueListHandler<>(new FacadeService().getBooks(connection));
         numPagesForResponse = setNumPages(getSize(booListHandler), numValuesPage);
         return booListHandler.getCurrentElement(numCurrentPage, numValuesPage);
     }
@@ -18,8 +19,8 @@ public class BookListHandlerService {
         return numPagesForResponse;
     }
 
-    private int getSize(BookListHandler<Book> bookListHandler){
-        return bookListHandler.getSize();
+    private int getSize(ValueListHandler<Book> valueListHandler){
+        return valueListHandler.getSize();
     }
 
     private int setNumPages(int sizeList, int numValuesPage){

@@ -12,12 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"AddBookServlet","AddCommentServlet", "AddLikeServlet", "AddReservedBookServlet",
-        "BookCommentServlet","BookStoreServlet","DeleteBookServlet","DeleteCommentServlet","LogOutServlet",
-        "UpdateBookInfoServlet","UpdateCommentServlet","UpdateNameUserServlet","UpdatePasswordUserServlet",
-        "UpdateRatingBookServlet","UserAccountServlet","UserBookServlet","UserReservedBooksServlet"
-
-} )
+@WebFilter(urlPatterns = {"/addBook", "/addReservedBook", "/bookStore", "/deleteBook", "/updBook", "/updRatingBook",
+        "/userBooks", "/userReservedBooks", "/addComment", "/bookComm", "/deleteComm", "/updComm", "/addLike",
+        "/logOut", "/updateNameUser", "/updatePasswordUser", "/account"})
 public class SignInFilter extends HttpFilter {
     private final Logger logger = LoggerFactory.getLogger(SignInFilter.class.getSimpleName());
 
